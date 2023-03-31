@@ -1,0 +1,33 @@
+\hypertarget{Design}{\chapter{Design}}
+
+\section{Motivace}
+
+Při tvorbě aplikace bylo neustále nutné myslet na dva hlavní faktory, kolem kterých se celý design musí odvíjet; to sice, že je program mířený pro dvě skupiny: učitele a žáky zároveň.
+
+Úkolem žáka je v testu odpovídat na otázky. Žák by měl mít co nejméně možností, jak podvádět, aby byl správně umístěn do jazykové skupiny úměrné jeho znalostem.
+
+Učitel pracuje se svým vlastním rozhraním, kde zadává otázky, vytváří testy, kontroluje průběh testování a získává automaticky zpracované výsledky.
+
+V obou případech je důležité, aby byla webová aplikace intuitivní na používání, měla příjemný design a hlavně spolehlivě fungovala.
+
+\section{Přihlašování}
+
+Ještě před tím, než se uživatelé dostanou do svého rozhraní, je potřeba, aby se přihlásili. Tato část aplikace je společná pro žáky i učitele. 
+
+\textit{obrázek - Přihlašovací stránka je hlavní stránkou aplikace. }
+
+Učitelé a žáci se přihlásí pomocí svého školního Google účtu (vizte kapitola 2.X.X).
+
+Pokud se přihlásí učitel, zobrazí se mu nabídka pro přechod do administrátorské sekce.
+
+\textit{obrázek - po přihlášení učitele}
+
+Pokud se přilhásí žák, záleží na tom, zdali je pro jeho ročník aktuálně spuštěný test. Pokud ne, zobrazí se pouze informace o tom, že pro žáka žádný test aktuálně spuštěný není; pokud ano, zobrazí se informace o jeho trvání a počtu otázek, spolu s možností test spustit.
+
+\textit{obrázek - po přihlášení žáka}
+
+\section{Žákovské rozhranní}
+
+Žákovské rozhranní slouží k vyplňování zadaných testů. Po přihlášení je přesměrován do rozhranní, kde jsou pro něj vygenerované otázky (vizte kapitola 2.X.X). Žák má na výběr ze čtyř možností z nihž je vždy pouze jedna správně.
+
+\section{Učitelské rozhranní}

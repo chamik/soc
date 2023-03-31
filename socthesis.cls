@@ -16,12 +16,13 @@
 %%%%%% PŘÍKAZY
 \newcommand{\B}{\textbf} % tučné písmo
 \newcommand{\It}{\textit} % kurzíva
+\newcommand{\M}{\texttt} % monospace
 
 %%%%%% ROZMĚRY
 
 % posun textu kvůli kroužkové vazbě
 %\addtolength{\textwidth}{mm}
-\addtolength{\hoffset}{4mm}
+% \addtolength{\hoffset}{4mm}
 
 \setlength{\intextsep}{5mm} % nastavení mezery okolo obrázků
 \marginparsep=15pt
@@ -173,7 +174,7 @@
 \newcommand{\makethanks}[1]{
 	\pagestyle{empty}
 	~
-	% \vfill
+	\vfill
 	\section*{Poděkování}
 	{#1}
 
