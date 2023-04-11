@@ -2,11 +2,11 @@
 
 \section{Požadavky}
 
-Hlavní podmínkou pro použití technologie v této odborné práci je její volná licence. Dalšími podmínkami byla jednoduchost používání/naučení a modernost.
+Hlavní podmínkou pro použití technologie v této odborné práci je její volná licence. Dalšími podmínkami byla jednoduchost používání/naučení a aktuálnost -- cílem je použít co nejmodernější nástroje, aby program stárnul co nejpomaleji.
 
 \section{Licence}
 
-Dalším důležitým uvážením při tvorbě projektu byl výběr licence. Nakonec jsem se rozhodl pro licenci MIT, která je krátká, jednoduchá na pochopení, umožňuje s kódem volně nakládat a nezaručuje z mé strany žádnou zodpovědnost a záruku.\cite{choosealicense}
+Důležitým uvážením při tvorbě projektu byl výběr licence. Nakonec jsem se rozhodl pro licenci MIT, která je krátká, jednoduchá na pochopení, umožňuje s kódem volně nakládat a nezaručuje z mé strany žádnou zodpovědnost a záruku.\cite{choosealicense}
 
 Volba licence je důležitá, protože\dots
 
@@ -14,7 +14,7 @@ Volba licence je důležitá, protože\dots
 
 Dnes existuje nepřeberně způsobů, jak vytvořit full-stack\footnote{Full-stack označuje kompletní řešení, často za použití serverové i klientské aplikace.} aplikaci a vybrat mezi nimi není jednoduché. Mimo to je tyto technologie potřeba často kombinovat; této kombinaci se nazývá stack. Stack určuje, jak aplikaci vyvíjíme a jaké prostředky nám jsou dostupné. Stack si lze vytvořit sám dle vlastního uvážení a potřeb, nebo využít nějaký volně dostupný, který už je ozkoušený a důvěryhodný.
 
-Mojí volbou se stal \M{T3 Stack}, který kombinuje několik populárních technologií, které jsou blíže popsány níže. Zároveň je však poměrně tvárný a lze ho jednoduše přizpůsobit potřebám projektu.
+Mojí volbou se stal \M{T3 Stack}, který kombinuje několik populárních technologií, které jsou blíže popsány níže. Zároveň je však poměrně tvárný a lze ho jednoduše přizpůsobit potřebám projektu.\cite{t3stack}
 
 \subsection{Jazyk}
 
@@ -22,8 +22,18 @@ Jedno z prvních rozhodnutí, které musí člověk při tvorbě projektu uděla
 
 \subsection{Framework}
 
-Framework je jakási nadstavba nad programovacím jazykem a má proces vytváření webových aplikací usnadnit. Při tvorbě webové aplikace fungují jako páteř, na které stojí vše ostatní. \M{T3 Stack} přichází s frameworkem \M{Next.js}, který je sám o sobě nadstavbou nad populární knihovnou \M{React}. Nabízí mnoho funkcí, jmenovitě například možnost výběru stylu renderování stránky, nebo automatické optimalizace na několika frontách.
+Framework je jakási nadstavba nad programovacím jazykem a má proces vytváření webových aplikací usnadnit. Při tvorbě webové aplikace fungují jako páteř, na které stojí vše ostatní. \M{T3 Stack} přichází s frameworkem \M{Next.js}, který je sám o sobě nadstavbou nad populárním frameworkem \M{React}. Nabízí mnoho funkcí, jmenovitě například možnost výběru stylu renderování stránky, automatické optimalizace na několika frontách, hot code reloading atp.\cite{nextjs}
 
 \subsection{Databáze}
 
-Databáze je klíčovou součástí jakékoli větší aplikace. \M{T3 Stack} přichází s knihovnou \M{Prisma}, která komunikaci s ní v hodně ohledech usnadňuje. Co se samotné databáze týče, zvolil jsem \M{PostgreSQL}, která je léty osvědčená a jedna z nejvšestranějších volně dostupných databázových systémů.
+Databáze je klíčovou součástí jakékoli větší aplikace. Pro tento projekt jsem zvolil \M{PostgreSQL}; jedná se o jeden z nejvšestranějších volně dostupných databázových systémů.
+
+\M{T3 Stack} přichází s knihovnou \M{Prisma}, která komunikaci s databázi usnadňuje například tím, že pro TypeScript generuje typy podle definovaného schéma.
+
+\subsection{CSS Framework}
+
+Na rozdíl od jiných populárních CSS frameworků, jako je například \M{Bootstrap} nebo \M{Skeleton} se \M{TailwindCSS} liší tím, že nenabízí již předem připravené komponenty, ale pouze profesionály definované CSS třídy. Vývojář díky tomu není žádným způsobem omezován.\footnote{Navíc, pokud je člověk ve tvorbě webů zběhlý, na první pohled dokáže poznat připravené komponenty z populárních CSS frameworků, což je vzhled, kterému jsem se chtěl vyvarovat.} \M{TailwindCSS} je automaticky obsažen v \M{T3 Stack}u.
+
+\subsection{Autentifikace}
+
+Autentifikace je při tvorbě webových aplikací častým úskalím, proto \M{T3 Stack} automaticky přichází s \M{NextAuth.js}, což je rozšíření pro použitý framework \M{Next.js}. Umožňuje přihlašování s Google účtem, což je pro tuto aplikaci potřeba. Jedná se o léta používaný standard, což je u což je u bezpečnostně kritického komponentu stacku potřebné.
