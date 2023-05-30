@@ -11,9 +11,9 @@ O čem napsat:
 - [ ] design
     - [x] motivace
     - [x] přihlašování
-    - [ ] žákovské rozhranní
+    - [ ] žákovské rozhraní
         - ??
-    - [ ] učitelské rozhranní
+    - [ ] učitelské rozhraní
         - ??
 - [ ] technologie
     - [x] požadavky
