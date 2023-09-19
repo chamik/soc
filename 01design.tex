@@ -20,7 +20,7 @@ Ještě před tím, než se uživatelé dostanou do svého rozhraní, je potřeb
     \caption{Přihlašovací stránka je hlavní stránkou aplikace.}
 \end{figure}
 
-Učitelé a žáci se přihlásí pomocí svého školního Google účtu (vizte kapitola 2.X.X).
+Učitelé a žáci se přihlásí pomocí svého školního Google účtu (vizte 2.X.X).
 
 \newpage
 
@@ -32,7 +32,7 @@ Pokud se přihlásí učitel, zobrazí se mu nabídka pro přechod do administr�
     \caption{Hlavní stránka po přihlášení učitele.}
 \end{figure}
 
-Pokud se přilhásí žák, záleží na tom, zdali je pro jeho ročník aktuálně spuštěný test. Pokud ne, zobrazí se pouze informace o tom, že pro žáka žádný test aktuálně spuštěný není; pokud ano, zobrazí se informace o jeho trvání a počtu otázek, spolu s možností test spustit.
+Pokud je pro ročník přihlášeného žáka ročník aktuálně aktivovaný test, je vidět jeho délka, počet otázek a obtížnost. Pokud ne, zobrazí se pouze informace o tom, že pro žáka žádný test aktuálně spuštěný není.
 
 \begin{figure}[H]
     \centering
@@ -40,8 +40,14 @@ Pokud se přilhásí žák, záleží na tom, zdali je pro jeho ročník aktuál
     \caption{Hlavní stránka po přihlášení žáka bez zadaného testu.}
 \end{figure}
 
+% screen se zadaným testem
+
+Při aktivovaném testu může žák test spustit. Po spuštění se pro žáka vygeneruje originální sada otázek (vizte xxx) a žák je přesměrován do žákovského rozhraní. Pokud žák během testu tuto stránku opustí (například kvůli technickým potížím, výpadku proudu, atp.), zůstává test spuštěný a je možné pokračovat v jeho vyplňování z hlavní stránky. 
+
+% screen se spuštěným testem
+
 \section{Žákovské rozhraní}
 
-Žákovské rozhraní slouží k vyplňování zadaných testů. Po přihlášení je přesměrován do rozhraní, kde jsou pro něj vygenerované otázky (vizte kapitola 2.X.X). Žák má na výběr ze čtyř možností z nihž je vždy pouze jedna správně.
+Žákovské rozhraní slouží k vyplňování vygenerovaných testů. Pro každý ročník je předem nastavený čas a počet otázek různých obtížností (vizte xxx). Z banky otázek je podle těchto kritérií několik náhodně vybráno a zobrazeno. Otázky mohou být růyného druhu, ale u každé otázky je vždy na výběr ze čtyř možností z nichž právě jedna je správná. 
 
 \section{Učitelské rozhraní}
