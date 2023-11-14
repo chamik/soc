@@ -1,27 +1,10 @@
-\makeatletter
-\renewcommand{\@chapapp}{}% Not necessary...
-\newenvironment{chapquote}[2][2em]
-  {\setlength{\@tempdima}{#1}%
-   \def\chapquote@author{#2}%
-   \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
-   \itshape}
-  {\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
-\makeatother
-
 \chapter*{Úvod}
 \addcontentsline{toc}{chapter}{Úvod} % přidá položku úvod do obsahu
 
-Jako kdyby to bylo včera, když jsem pár let zpátky u nás na gymnáziu podstoupil takzvaný \enquote{rozřazovák}. Program, ve kterém jsme pracovali, byl zastaralý už jen od pohledu a šel triviálně rozbít -- taky si dobře vzpomínám, jak do dveří vtrhla v obličeji rudá učitelka angličtiny a začala hubovat spolužáka, \textit{proč ten test odevzdal třikrát??}
+Jako kdyby to bylo včera, když jsem pár let zpátky u nás na gymnáziu podstoupil takzvaný \enquote{rozřazovák}. Program, ve kterém jsme pracovali, byl zastaralý už jen od pohledu a šel triviálně rozbít -- taky si dobře vzpomínám, jak do dveří vtrhla učitelka angličtiny a začala hubovat spolužáka, \textit{proč ten test odevzdal třikrát?}
 
-Program nakonec přestal fungovat úplně. Od té doby se poslechová část dělá na papír a zbytek na počítači, což je nepohodlné nejen pro žáky, ale hlavně pro učitele. Rozhodl jsem se ho tedy přetvořit. Ani tak z dobré vůle, jako spíše z čistě pragmatického důvodu:~špatný software mě rozčiluje; ještě o to více, když je využíván ve výukové sféře.
+Program nakonec přestal fungovat úplně. Od té doby se poslechová část dělá na papír a zbytek na počítači, což je nepohodlné nejen pro žáky, ale hlavně pro učitele. Rozhodl jsem se ho tedy přetvořit. Ani tak z dobré vůle, jako spíše z čistě pragmatického důvodu:~špatný software mě frustruje; ještě o to více, když je využíván ve výukové sféře.
 
-Mým cílem je vytvořit program, který dokáže spolehlivě otestovat desítky lidí naráz a který je intuitivní na používání. Měl by používat nejmodernější volně dostupné technologie a hlavně by měl život lidí usnadnit, ne naopak. Jak zní nechvalně známý citát:
-
-\begin{chapquote}{George Bernard Shaw, \textit{Člověk a Nadčlověk, 1903}}
-    \enquote{Kdo umí, ten umí, kdo neumí, ten učí.}
-    % \enquote{He who can, does; he who cannot, teaches}
-\end{chapquote}
-
-Tudíž věřím, že spíše než v lidech je klíč k dobré výuce ve kvalitních výukových postupech a materiálech -- a to je něco, s čím my, programátoři, dokážeme pomoci; nevyužít interaktivity, kterou nám moderní stroje nabízejí, by přeci byla škoda.
+Mým cílem je vytvořit program, který dokáže spolehlivě otestovat desítky lidí naráz a výsledky automaticky zpracovat. Měl by používat nejmodernější volně dostupné technologie, být intuitivní a hlavně život žákům i učitelům usnadnit, ne naopak.
 
 V této práci se proto chci soustředit nejen na problematiky vývoje moderní webové aplikace, ale i na myšlenky a postupy za celým jejím designem. Při troše štěstí bude tento program ještě dlouhá léta dobře sloužit, než také podlehne digitálnímu stáří.

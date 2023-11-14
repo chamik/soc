@@ -2,7 +2,7 @@
 
 \section{Požadavky}
 
-Důležitým uvážením při tvorbě projektu byl výběr licence. Nakonec jsem se rozhodl pro použití licence GNU GPLv3, která je standardem takzvaných copyleft\footnote{Copyleft licence je typem licence pro software a jiný obsah, který umožňuje uživatelům volně používat, upravovat a sdílet software, přičemž vyžaduje, aby všechny odvozené verze byly také licencovány pod stejnými podmínkami. Tím zajišťuje, že software zůstane svobodným.} licencí.
+Důležitým uvážením při tvorbě projektu bylo výběr licence. Nakonec jsem se rozhodl pro použití licence GNU GPLv3, která je standardem takzvaných copyleft\footnote{Copyleft licence je typem licence pro software a jiný obsah, který umožňuje uživatelům volně používat, upravovat a sdílet software, přičemž vyžaduje, aby všechny odvozené verze byly také licencovány pod stejnými podmínkami. Tím zajišťuje, že software zůstane svobodným.} licencí.
 
 Volba licence je důležitá, protože přímo ovlivňuje, jak se se softwarem může zacházet. GPLv3 mimo jiné zaručuje, že tento projekt navždy zůstane open-source; kdokoliv může prozkoumat, upravit a dále (pod stejnou licencí) sdílet zdrojový kód.\cite{choosealicense}
 
@@ -22,7 +22,7 @@ Databáze je další klíčovou součástí jakékoli větší aplikace. Pro ten
 
 \M{T3 Stack} přichází s knihovnou \M{Prisma}, která komunikaci s databázi usnadňuje například tím, že pro TypeScript generuje typy podle definovaného schéma.
 
-Na rozdíl od jiných populárních CSS frameworků, jako je například \M{Bootstrap} nebo \M{Skeleton} se \M{TailwindCSS} liší tím, že nenabízí již předem připravené komponenty, ale pouze profesionály definované CSS třídy. Vývojář díky tomu není žádným způsobem omezován.\footnote{Navíc, pokud je člověk ve tvorbě webů zběhlý, na první pohled dokáže poznat připravené komponenty z populárních CSS  frameworků, což je vzhled, kterému jsem se chtěl vyvarovat.} \M{TailwindCSS} je automaticky obsažen v \M{T3 Stack}u.
+Na rozdíl od jiných populárních CSS frameworků, jako je například \M{Bootstrap} nebo \M{Skeleton} se \M{TailwindCSS} liší tím, že nenabízí již předem připravené komponenty, ale pouze profesionály definované CSS třídy. Vývojář díky tomu není žádným způsobem omezován.\footnote{Navíc, pokud je člověk ve tvorbě webů zběhlý, na první pohled dokáže poznat připravené komponenty z populárních CSS  frameworků, což je vzhled, kterému jsem se chtěl vyvarovat.}\cite{tailwind} \M{TailwindCSS} je automaticky obsažen v \M{T3 Stack}u.
 
 Autentifikace je při tvorbě webových aplikací častým úskalím, proto \M{T3 Stack} automaticky přichází s \M{NextAuth.js}, což je rozšíření pro použitý framework \M{Next.js}. Umožňuje přihlašování s Google účtem, což je pro tuto aplikaci potřeba. Jedná se o léta používaný standard, což je u což je u bezpečnostně kritického komponentu jedna z žádaných vlastností. Zároveň jsou všechny kritické bezpečnostní chyby hlášeny na amerických státních stránkách NIST.
 
@@ -68,11 +68,13 @@ GOOGLE_CLIENT_SECRET=
 \end{verbatim}
 \hrule
 
+Kvůli bezpečnosti nejsou ve výchozím stavu tyto proměnné přístupné v klientské aplikaci. Proto je potřeba k názvu těch, které na klientu chceme používat, na začátek přidat \enquote{\M{NEXT\_PUBLIC\_}}. \M{Next.js} poté tyto proměnné v klientské aplikaci zpřístupní.
+
 \subsubsection{Docker}
 
 Pro usnadnění spouštění programu lze projekt spustit v Docker kontejneru. Soubor \M{Dockerfile} definuje, jak program sestavit a spustit. Soubor \M{docker-compose.yml} poté definuje, jak se má spustit databáze spolu s programem a jak mezi sebou komunikují. \cite{docker}
 
-Script \M{start.sh} provádí podle nastavení při každém spuštění migrace a končeně spouští program.
+Script \M{start.sh} podle nastavení při každém spuštění provede migrace databáze a končeně spouští program.
 
 \subsection{Databáze}
 
@@ -149,7 +151,7 @@ function parseUserLevel(email: string) {
 \end{verbatim}
 \hrule
 
-Pro bylo přihlašování přes Google účet možné, je potřeba svoji aplikaci registrovat v Google Developer Console. Zde je možné editovat, k jakým údajům uživatele má aplikace přístup (v tomto případě pouze ke jménu a e-mailu), název aplikace zobrazený uživateli aj. Také je zde potřeba správně nastavit callback adresu -- kam Google uživatele přesměruje po přihlášení -- a potvrzené zdroje JavaScriptu.
+Aby bylo přihlašování přes Google účet možné, je potřeba svoji aplikaci registrovat v Google Developer Console. Zde je možné editovat, k jakým údajům uživatele má aplikace přístup (v tomto případě pouze ke jménu a e-mailu), název aplikace zobrazený uživateli aj. Také je zde potřeba správně nastavit callback adresu -- kam Google uživatele přesměruje po přihlášení -- a potvrzené zdroje JavaScriptu.
 
 \begin{figure}[H]
     \centering
@@ -167,8 +169,7 @@ K potvrzení identity uživatele se používá protokol OAuth 2.0, který \M{Nex
     \caption{Schéma komunikace aplikace se servery Googlu během přihlašování. Sdíleno Googlem. \cite{google-auth}}
 \end{figure}
 
-Pokud celý tento proces proběhl úspěšně, je uživatel přesměrován zpět na hlavní stránku (vizte \ref{sec:login-design}). Pokud ne, uživateli je sděleno, že přihlašování neproběhlo úspěšně.
+Pokud celý tento proces proběhl úspěšně, je uživatel přesměrován zpět na hlavní stránku (vizte \ref{sec:login-design}). Pokud ne, uživateli je sděleno, že přihlašování neproběhlo úspěšně a je přesměrován na interní stránku \M{NextAuth.js}, kde má možnost se zkusit přihlásit znovu.
 
-\section{Nasazení}
+\section{Komponenty}
 
-Program je potřeba někde spustit tak, aby byl dostupný na internetu. Pro tento účel jsem zvolil služby společnosti Hetzner, které nabízejí VPS\footnote{Virtual Private Server, nebo česky virtuální soukromý server} za rozumné ceny a mám s nimi již dobré zkušenosti. 
