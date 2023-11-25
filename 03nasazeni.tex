@@ -2,13 +2,13 @@
 
 \section{VPS}
 
-Program je potřeba někde spustit tak, aby byl dostupný na internetu. Pro tento účel jsem zvolil služby společnosti Hetzner, které nabízejí VPS\footnote{Virtual Private Server, nebo česky virtuální soukromý server} za rozumné ceny a mám s nimi již dobré zkušenosti. Tento program běží na stroji \M{CPX11}, který má dvě virtuální jádra a dva gigabajty operační paměti -- výkonnější počítač by byl zbytečný, protože aplikace není moc náročná na provoz.
+Program je potřeba někde spustit tak, aby byl dostupný na internetu. Pro tento účel jsem zvolil služby společnosti Hetzner, která nabízí VPS\footnote{Virtual Private Server, nebo česky virtuální soukromý server} za rozumné ceny a~má dobrou reputaci. Tento program běží na stroji \M{CPX11}, který má dvě virtuální jádra a~dva gigabajty operační paměti -- výkonnější počítač by byl zbytečný, jelikož aplikace není na provoz příliš náročná.
 
 Je ovšem potřeba poznamenat, že má server potíže se sestavováním docker kontejneru (vizte ODKAZ), proto se doporučuje sestavit kontejner na výkonnějším stroji a na serveru ho pouze stáhnout a spustit. 
 
 \section{Reverse Proxy}
 
-Protože na pronajatém serveru běží několik programů, které se chovají jako HTTP server, je potřeba mít program, který tvoří jakousi bránu pro dotazy a přeposílá je správným programům podle toho, z jaké URL jsou posílány. Existuje mnoho takových programů (jeden z nejpopulárnějších je NGINX), pro tento účel je doporučený program \M{Caddy} -- obzvlášť proto, že se jednoduše konfiguruje a používá. Níže následuje úryvek konfiguračního souboru. 
+Protože na pronajatém serveru běží několik programů, které se chovají jako HTTP server, je potřeba mít program, který tvoří jakousi bránu pro dotazy a přeposílá je správným programům podle toho, z jaké URL jsou posílány. Existuje mnoho takových programů (jeden z nejpopulárnějších je NGINX); pro tento účel je doporučený program \M{Caddy} -- obzvláště proto, že se jednoduše konfiguruje a používá. Níže následuje úryvek konfiguračního souboru. 
 
 \begin{lstlisting}[language=JavaScript,caption={Úryvek konfiguračního souboru Caddy}]
 rozrazovak.gjp-me.cz {
@@ -16,11 +16,11 @@ rozrazovak.gjp-me.cz {
 }
 \end{lstlisting}
 
-Použitý port 9000 je možné nakonfigurovat, vizte ODKAZ.
+Použitý port 9000 je možné nakonfigurovat, vizte \ref{sec:config}.
 
 \section{DNS}
 
-Aby byla aplikace dostupná z internetu na uživatelsky přívětivé doméně, je potřeba mít k nějaké takové administrátorský přístup. Za pomoci vedoucího práce Markéty Wolfové mi byla zpřístupněna poddoména \M{rozrazovak.gjp-me.cz}. Tato doména nyní pomocí DNS záznamu CNAME odkazuje na vlastní doménu \M{chamik.eu}, která už následně odkazuje na specifickou IP adresu serveru. 
+Aby byla aplikace dostupná z internetu na uživatelsky přívětivé doméně, je potřeba mít k nějaké takové administrátorský přístup. Za pomoci vedoucího práce Markéty Wolfové mi byla zpřístupněna poddoména \M{rozrazovak.gjp-me.cz}. Tato poddoména nyní pomocí DNS záznamu CNAME odkazuje na vlastní doménu \M{chamik.eu}, která už následně odkazuje na specifickou IP adresu serveru. 
 
 Odkazování pomocí CNAME je výhodné v tom, že v případě změny IP adresy serveru stačí pouze změnit A a AAAA záznam na doméně \M{chamik.eu}, žádná změna ze strany školy tedy potřeba není.
 
@@ -39,9 +39,9 @@ chamik.eu.		        300	    IN	A	    5.75.170.217
 
 Testování programu probíhalo průběžně během vývoje. Nejdůležitější bylo prvotní testování a komunikace s učiteli angličtiny -- pokud by program nevyhovoval jejich požadavkům, postrádal by význam a užitečnost.
 
-Po zprovoznění základních funkcionalit proběhlo několik větších testů s menší třídou uživatelů a přítomným učitelem. Tyto testy sloužily hlavně k doladění detailů a chyb.
+Po zprovoznění základních funkcionalit proběhlo několik větších testů s menší třídou žáků a přítomným učitelem. Tyto testy sloužily hlavně k doladění detailů a chyb.
 
-Podle testování je program připravený na plné nasazení.
+Podle výsledků testování je program připravený na plné nasazení.
 
 % testování o angličtinu
 % konzultace s učitelem AJ

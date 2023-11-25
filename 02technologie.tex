@@ -2,31 +2,31 @@
 
 \section{Požadavky}
 
-Důležitým uvážením při tvorbě projektu bylo výběr licence. Nakonec jsem se rozhodl pro použití licence GNU GPLv3, která je standardem takzvaných copyleft\footnote{Copyleft licence je typem licence pro software a jiný obsah, který umožňuje uživatelům volně používat, upravovat a sdílet software, přičemž vyžaduje, aby všechny odvozené verze byly také licencovány pod stejnými podmínkami. Tím zajišťuje, že software zůstane svobodným.} licencí.
+Důležitým uvážením při tvorbě projektu byl výběr licence. Nakonec jsem se rozhodl pro použití licence GNU GPLv3, která je standardem takzvaných copyleft\footnote{Copyleft licence je typem licence pro software, který umožňuje uživatelům volně používat, upravovat a sdílet daný program, přičemž vyžaduje, aby všechny odvozené verze byly také licencovány pod stejnými podmínkami. Tím zajišťuje, že software zůstane svobodným.} licencí.
 
-Volba licence je důležitá, protože přímo ovlivňuje, jak se se softwarem může zacházet. GPLv3 mimo jiné zaručuje, že tento projekt navždy zůstane open-source; kdokoliv může prozkoumat, upravit a dále (pod stejnou licencí) sdílet zdrojový kód.\cite{choosealicense}
+Volba licence je důležitá, protože přímo ovlivňuje, jak se dá se softwarem zacházet. GPLv3 mimo jiné zaručuje, že tento projekt navždy zůstane open-source; kdokoliv může prozkoumat, upravit a dále (pod stejnou licencí) sdílet zdrojový kód.\cite{choosealicense}
 
-Dalšími podmínkami byla jednoduchost používání a aktuálnost různých nástrojů, programů a knihoven -- cílem bylo použít moderní (avšak osvědčené), aby program stárnul co možná nejpomaleji.
+Dalšími podmínkami byly jednoduchost používání a aktuálnost různých nástrojů, programů a knihoven -- cílem bylo použít moderní (avšak osvědčené), aby program stárnul co možná nejpomaleji.
 
 \subsection{Stack}
 
-Dnes existuje nepřeberně způsobů, jak vytvořit full-stack\footnote{Full-stack označuje kompletní řešení, často za použití serverové i klientské aplikace.} aplikaci a vybrat mezi nimi není jednoduché. Mimoto je tyto technologie potřeba často kombinovat; této kombinaci se nazývá stack. Stack určuje, jak aplikaci vyvíjíme a jaké prostředky nám jsou dostupné. Stack si lze vytvořit sám dle vlastního uvážení a potřeb, nebo využít nějaký volně dostupný, který už je ozkoušený a důvěryhodný.
+Dnes existuje nepřeberně způsobů jak vytvořit full-stack\footnote{Full-stack označuje kompletní řešení, často za použití serverové i klientské aplikace.} aplikaci a vybrat mezi nimi není jednoduché. Mimoto je tyto technologie potřeba často kombinovat; tato kombinace se nazývá stack. Stack určuje, jak aplikaci vyvíjíme a jaké prostředky nám jsou dostupné. Stack si můžeme vytvořit sami dle vlastního uvážení a potřeb, nebo využít nějaký volně dostupný, který už je ozkoušený a důvěryhodný.
 
 Mojí volbou se stal \M{T3 Stack}, který kombinuje několik populárních technologií, které jsou blíže popsány níže. Zároveň je však poměrně tvárný a lze ho jednoduše přizpůsobit potřebám projektu.\cite{t3stack}
 
-Jedno z prvních rozhodnutí, které musí člověk při tvorbě projektu udělat je samotný výběr programovacího jazyka. Posledních pár let se většina vývoje soustředí kolem jazyka \M{TypeScript}, který je typovanou\footnote{Typy v programovacím jazyce definují struktury, ve kterých se mimo jiné dají ukládat data. Pokud předem víme, jak tyto struktury vypadají, dá se jednodušeji při programování vyhnout chybám.} variantou jazyka \M{JavaScript}. \M{T3 Stack} ho automaticky používá. 
+Jedno z prvních rozhodnutí, které musí člověk při tvorbě projektu udělat, je samotný výběr programovacího jazyka. Posledních pár let se většina vývoje soustředí kolem jazyka \M{TypeScript}, který je typovanou\footnote{Typy v programovacím jazyce definují struktury, ve kterých se mimo jiné dají ukládat data. Pokud předem víme, jak tyto struktury vypadají, dá se při programování lépe vyhnout chybám.} variantou jazyka \M{JavaScript}. \M{T3 Stack} ho automaticky používá. 
 
-Framework je jakási nadstavba nad programovacím jazykem a má proces vytváření webových aplikací usnadnit. Při tvorbě webové aplikace fungují jako páteř, na které stojí vše ostatní. \M{T3 Stack} přichází s frameworkem \M{Next.js}, který je sám o sobě nadstavbou nad populárním frameworkem \M{React}. Nabízí mnoho funkcí, jmenovitě například možnost výběru stylu renderování stránky, automatické optimalizace a různé další funkcionality.\cite{nextjs}
+Framework je jakási nadstavba nad programovacím jazykem a má proces vytváření webových aplikací usnadnit. Při tvorbě webové aplikace funguje jako páteř, na které stojí vše ostatní. \M{T3 Stack} přichází s frameworkem \M{Next.js}, který je sám o~sobě nadstavbou nad populárním frameworkem \M{React}. Nabízí mnoho funkcí, jmenovitě například možnost výběru stylu renderování stránky, automatické optimalizace a~různé další funkcionality.\cite{nextjs}
 
 % TODO: TRPC??
 
 Databáze je další klíčovou součástí jakékoli větší aplikace. Pro tento projekt jsem zvolil \M{PostgreSQL}; jedná se o jeden z nejvšestranějších volně dostupných databázových systémů.
 
-\M{T3 Stack} přichází s knihovnou \M{Prisma}, která komunikaci s databázi usnadňuje například tím, že pro TypeScript generuje typy podle definovaného schéma.
+\M{T3 Stack} přichází s knihovnou \M{Prisma}, která komunikaci s databází usnadňuje například tím, že pro TypeScript generuje typy podle definovaného schématu.
 
 Na rozdíl od jiných populárních CSS frameworků, jako je například \M{Bootstrap} nebo \M{Skeleton} se \M{TailwindCSS} liší tím, že nenabízí již předem připravené komponenty, ale pouze profesionály definované CSS třídy. Vývojář díky tomu není žádným způsobem omezován.\footnote{Navíc, pokud je člověk ve tvorbě webů zběhlý, na první pohled dokáže poznat připravené komponenty z populárních CSS  frameworků, což je vzhled, kterému jsem se chtěl vyvarovat.}\cite{tailwind} \M{TailwindCSS} je automaticky obsažen v \M{T3 Stack}u.
 
-Autentifikace je při tvorbě webových aplikací častým úskalím, proto \M{T3 Stack} automaticky přichází s \M{NextAuth.js}, což je rozšíření pro použitý framework \M{Next.js}. Umožňuje přihlašování s Google účtem, což je pro tuto aplikaci potřeba. Jedná se o léta používaný standard, což je u což je u bezpečnostně kritického komponentu jedna z žádaných vlastností. Zároveň jsou všechny kritické bezpečnostní chyby hlášeny na amerických státních stránkách NIST.
+Autentifikace je při tvorbě webových aplikací častým úskalím, proto \M{T3 Stack} automaticky přichází s \M{NextAuth.js}, což je rozšíření pro použitý framework \M{Next.js}. Umožňuje přihlašování s Google účtem, což je pro tuto aplikaci potřeba. Jedná se o léta používaný standard, což je u bezpečnostně kritického komponentu jedna~z žádaných vlastností. Zároveň jsou všechny kritické bezpečnostní chyby hlášeny na amerických státních stránkách NIST.
 
 Sestavený kód je spouštěn pomocí \M{Node.js} za pomocí balíčkovacího programu \M{NPM}. Zároveň je možné celý program spolu s databázovým systémem spustit v \M{Docker} kontejnerech.
 
@@ -36,23 +36,20 @@ Všechny výše zmíněné technologie jsou dostupné pod open-source licencemi.
 
 \section{Program}
 
-Program je poměrně rozsáhlý, proto je pro přehlednost rozdělen do několika souborů a složek. Všechny konfigurační soubory se nacházejí v kořenové cestě aplikace. Všechny soubory týkající se databáze, včetně migrací\footnote{Migrace je sql soubor který definuje postupné změny databáze během vývoje.} a schématu, jsou ve složce \M{/prisma/}. Všechny statické soubory, jako jsou například obrázky a ikony jsou ve složce \M{/public/} (toto je složka, kterou \M{Next.js} automaticky detekuje a všechny soubory uvnitř ní zveřejní v sestavené verzi aplikace). Složka \M{/src/} obsahuje samotný zdrojový kód.
+Program je poměrně rozsáhlý, proto je pro přehlednost rozdělen do několika souborů a složek. Všechny konfigurační soubory se nacházejí v kořenové cestě aplikace. Všechny soubory týkající se databáze, včetně migrací\footnote{Migrace je sql soubor, který definuje postupné změny databáze během vývoje.} a schématu, jsou ve složce \M{/prisma/}. Všechny statické soubory, jako jsou například obrázky a ikony, jsou ve složce \M{/public/} (toto je složka, kterou \M{Next.js} automaticky detekuje a všechny soubory uvnitř ní zveřejní v sestavené verzi aplikace). Složka \M{/src/} obsahuje samotný zdrojový kód.
 
 \subsection{Konfigurace}
 \label{sec:config}
 
 Protože je v programu použito hodně nástrojů, je potřeba mnoha konfiguračních souborů.
 
-\M{package.json} definuje použité knihovny a různé scripty\footnote{Script je typicky malý kus kódu, který nijak nezasahuje do funkčnosti aplikace, ale vypomáhá při jejím vývoji.}; tento soubor využívá balíčkovací systém \M{NPM} při instalaci potřebných balíčků. \M{tailwind.config.cjs}, \M{prettier.config.cjs} a \M{postcss.config.cjs} nastavují funkčnost \M{Tailwind}u. \M{next.config.mjs} a \M{next-env.d.ts} konfigurují funkčnost \M{Next.js}. Soubor \M{.gitignore} definuje, jaké soubory má \M{Git} ignorovat.
+\M{package.json} definuje použité knihovny a různé scripty\footnote{Script je typicky malý kus kódu, který nijak nezasahuje do funkčnosti aplikace, ale vypomáhá při jejím vývoji.}; tento soubor je vyžíván balíčkovacím systémem \M{NPM} při instalaci potřebných balíčků. \M{tailwind.config.cjs}, \M{prettier.config.cjs} a \M{postcss.config.cjs} nastavují funkčnost \M{Tailwind}u. \M{next.config.mjs} a \M{next-env.d.ts} konfigurují funkčnost \M{Next.js}. Soubor \M{.gitignore} definuje, jaké soubory má \M{Git} ignorovat.
 
-Konfigurace samotného programu je uložena v souboru \M{.env}. Tento soubor není v repozitáři přítomen, protože obsahuje citlivé informace (přístupové údaje k databázi aj.); místo toho je přítomen soubor \M{.env-example}, kde jsou všechny nastavitelné hodnoty popsány a nevyplněny. Níže následuje úryvek z tohoto souboru.
+Konfigurace samotného programu je uložena v souboru \M{.env}. Tento soubor není v~repozitáři přítomen, protože obsahuje citlivé informace (přístupové údaje k databázi aj.); místo toho je přítomen soubor \M{.env-example}, kde jsou všechny nastavitelné hodnoty popsány a nevyplněny. Níže následuje úryvek z tohoto souboru.
 
-\indent
-
-\hrule
-\begin{verbatim}
+\begin{lstlisting}[language=Python,caption={Úryvek ukázky konfiguračního souboru programu}]
 # VARIABLE INFO
-NEXT_PUBLIC_SUBTITLE="Rozřazovací testy pro [jméno školy]"
+NEXT_PUBLIC_SUBTITLE="Rozrazovaci testy pro [jmeno skoly]"
 NEXT_PUBLIC_REPOSITORY="https://github.com/chamik/rozrazovak"
 NEXT_PUBLIC_CONTACT_EMAIL="aktualni-administrator@example.org"
 
@@ -67,22 +64,21 @@ POSTGRES_DB=rozrazovak
 # Next Auth Google Provider
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
-\end{verbatim}
-\hrule
+\end{lstlisting}
 
 Kvůli bezpečnosti nejsou ve výchozím stavu tyto proměnné přístupné v klientské aplikaci. Proto je potřeba k názvu těch, které na klientu chceme používat, na začátek přidat \enquote{\M{NEXT\_PUBLIC\_}}. \M{Next.js} poté tyto proměnné v klientské aplikaci zpřístupní.
 
 Pro usnadnění spouštění programu lze projekt spustit v Docker kontejneru. Soubor \M{Dockerfile} definuje, jak program sestavit a spustit. Soubor \M{docker-compose.yml} poté definuje, jak se má spustit databáze spolu s programem a jak mezi sebou komunikují. \cite{docker}
 
-Script \M{start.sh} podle nastavení při každém spuštění provede migrace databáze a končeně spouští program.
+Script \M{start.sh} podle nastavení při každém spuštění provede migrace databáze a~konečně spouští program.
 
 \subsection{Databáze}
 
-Schéma databáze je definované pomocí souboru \M{prisma/schema.prisma}. Obsahuje definice uživatelů, testů, odpovědí, aktuálních přihlášení aj. (vizte obrázek \ref{schema}) Jedná se o soubor se speciálním zápisem, který následně \M{Prisma} používá k vytváření SQL migrací, Typescript typů atd. Díky této funkcionalitě v programu není ani jeden ručně psaný řádek SQL kódu.
+Schéma databáze je definované pomocí souboru \M{prisma/schema.prisma}. Obsahuje definice uživatelů, testů, odpovědí, aktuálních přihlášení aj. (vizte obrázek \ref{schema}). Jedná se o soubor se speciálním zápisem, který následně \M{Prisma} používá k vytváření SQL migrací, Typescript typů atd. Díky této funkcionalitě v programu není ani jeden ručně psaný řádek SQL kódu.
 
 Výhodou tohoto přístupu je, že \M{Prisma} dokáže převádět tento obecný zápis a dotazy na specifické verze SQL podle použité databáze. \cite{prisma} Níže následuje úryvek schématu.
 
-\begin{lstlisting}[language=Prisma, caption={Úryvek schéma databáze}]
+\begin{lstlisting}[language=Prisma, caption={Úryvek schématu databáze}]
 model Question {
     id            Int          @id @default(autoincrement())
     languageLevel Int          @default(0)
@@ -102,10 +98,11 @@ enum QuestionType {
 }
 \end{lstlisting}
 
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=420px]{images/02technologie/schema.png}
-    \caption{Vizualizované schéma databáze. Každý modrý blok popisuje jednu tabulku. V tabulce se nachází jména sloupců společně s jejich typy. Šedé čáry značí relace.}
+    \includegraphics[width=420px]{images/02technologie/schema3.png}
+    \caption{Vizualizované schéma databáze. Každý blok popisuje jednu tabulku. Bloky se zeleným pruhem značí definované typy. V tabulce se nachází jména sloupců společně s jejich typy. Šedé čáry značí relace.}
     \label{schema}
 \end{figure}
 
@@ -114,9 +111,9 @@ Během vývoje se schéma databáze měnilo. Při každé změně byla vytvořen
 \subsection{Přihlašování}
 \label{sec:login}
 
-Boilerplate\footnote{Boilerplate je opakující se nebo standardní kód, který je často používán v různých částech softwaru a aplikací. Jedná se o kód, který obsahuje základní strukturu a funkce.} kód pro přihlašování přichází s \M{T3 Stack}em už připravený, je však upraven tak, aby vyhovoval požadavkům projektu -- specificky aby aplikace umožňovala přihlašování se školním Google účtem.
+Boilerplate\footnote{Boilerplate je opakující se nebo standardní kód, který je často používán v různých částech softwaru a aplikací. Jedná se o kód, který obsahuje základní strukturu a funkce.} kód pro přihlašování přichází s \M{T3 Stack}em už připravený, je však upraven tak, aby vyhovoval požadavkům projektu -- specificky, aby aplikace umožňovala přihlašování se školním Google účtem.
 
-Specifická implementace se nachází v \M{src/pages/api/auth/[...nextauth].ts}. Při přihlášení si program kontroluje použitou e-mail adresu -- nejdříve pokud se nachází v seznamu učitelů (vizte \ref{sec:config}), v takovém případě uživateli přidělí roli učitele s přístupem do učitelského rozhraní (vizte \ref{sec:admin}). 
+Specifická implementace se nachází v \M{src/pages/api/auth/[...nextauth].ts}. Při přihlášení si program kontroluje použitou e-mailovou adresu -- nejdříve pokud se nachází v seznamu učitelů (vizte \ref{sec:config}), v takovém případě uživateli přidělí roli učitele s přístupem do učitelského rozhraní (vizte \ref{sec:admin}). 
 
 Pokud ne, program se ujistí, že je e-mail součástí školní domény. Poté je díky specifické konvenci GJP-ME dávat žákům e-mailové adresy ve formátu \M{[rok nástupu na školu][typ studia][pořadí žáka v abecedním seznamu]@gjp-me.cz} schopen získat rok nástupu žáka a podle toho vypočítat, v jakém ročníku se aktuálně nachází (vizte níže). Všechny tyto údaje jsou uloženy do databáze.
 
@@ -148,12 +145,12 @@ Aby bylo přihlašování přes Google účet možné, je potřeba svoji aplikac
 \begin{figure}[H]
     \centering
     \includegraphics[width=420px]{images/02technologie/google-console.png}
-    \caption{Redigovaný snímek obrazovky z Google Developer Conosle.}
+    \caption{Redigovaný snímek obrazovky z Google Developer Console.}
 \end{figure}
 
-Po správném nastavení a potvrzení administrátorem organizace podle použité domény aplikace je na této stránce možné získat \M{CLIENT\_ID} a \M{CLIENT\_SECRET}, které je potřeba vyplnit v konfiguračním souboru aplikace (vizte \ref{sec:config}).
+Po správném nastavení a potvrzení administrátorem organizace, podle použité domény aplikace, je na této stránce možné získat \M{CLIENT\_ID} a \M{CLIENT\_SECRET}, které je potřeba vyplnit v konfiguračním souboru aplikace (vizte \ref{sec:config}).
 
-K potvrzení identity uživatele se používá protokol OAuth 2.0, který \M{NextAuth.js} automaticky zpracuje a vývojáři zpřístupní relevantní údaje, jako je například právě e-mail a jméno.
+K potvrzení identity uživatele se používá protokol \M{OAuth 2.0}, který \M{NextAuth.js} automaticky zpracuje a vývojáři zpřístupní relevantní údaje, jako je například právě e-mail a jméno.
 
 \begin{figure}[H]
     \centering
@@ -166,7 +163,7 @@ Pokud celý tento proces proběhl úspěšně, je uživatel přesměrován zpět
 \section{API}
 \label{api}
 
-Přestože se celý program zapisuje do jedné souborové struktury, běží některý kód pouze na serveru. Tento kód se nachází v \M{/src/server/}. \M{Next.js} při kompilaci spojí všechny typescript zdrojové soubory a vytvoří z nich jeden javascript program. Tento program spustí svůj webserver na portu definovaném v konfiguraci (vizte ODKAZ). API\footnote{API (application programming interface; česky rozhraní pro programování aplikací) definuje možnosti vzájemné komunikace aplikací (v tomto případě serveru a klienta).} samotné je dostupné na cestě \M{[doména]/api/trpc/} -- tato adresa je definována v \M{/src/utils/tprc.ts} a je na ni možné posílat tradiční json požadavky. Toto API využívá v pozadí i aplikace.
+Přestože se celý program zapisuje do jedné souborové struktury, běží některý kód pouze na serveru. Tento kód se nachází v \M{/src/server/}. \M{Next.js} při kompilaci spojí všechny typescript zdrojové soubory a vytvoří z nich jeden javascript program. Tento program spustí svůj webserver na portu definovaném v konfiguraci (vizte \ref{sec:config}). API\footnote{API (application programming interface; česky rozhraní pro programování aplikací) definuje možnosti vzájemné komunikace aplikací (v tomto případě serveru a klienta).} samotné je dostupné na cestě \M{[doména]/api/trpc/} -- tato adresa je definována v \M{/src/utils/tprc.ts} a je na ni možné posílat tradiční \M{json} požadavky. Toto API využívá v pozadí i aplikace.
 
 API je rozdělené do dvou hlavních částí s různými pravomocemi -- uživatelské a učitelské. Uživatelské je dostupné všem přihlášeným uživatelům. Učitelské je dostupné pouze oprávněným uživatelům -- server si zkontroluje, pokud je u uživatele v databázi vyplněná kolonka \M{isTeacher}. Tento kód se nachází v \M{/src/server/trpc/trpc.ts} a jeho ukázka je níže.
 
@@ -196,7 +193,7 @@ export const teacherProcedure = t.procedure.use(isTeacher);
 \subsection{Uživatelské API}
 \label{userapi}
 
-Uživatelské API se nachází v \M{/src/server/trpc/router/user.ts}. Definuje následující endpointy\footnote{API endpoint je specifický koncový bod nebo URL v rámci API, které představuje konkrétní operaci nebo zdroj poskytovaný daným rozhraním. V tomto případě každý endpoint reprezentuje jednu funkci na severu.}:
+Uživatelské API se nachází v \M{/src/server/trpc/router/user.ts}. Definuje následující endpointy\footnote{API endpoint je specifický koncový bod nebo URL v rámci API, který představuje konkrétní operaci nebo zdroj poskytovaný daným rozhraním. V tomto případě každý endpoint reprezentuje jednu funkci na serveru.}:
 
 % TODO: tečky na konci řádků?
 \begin{compactitem}
@@ -204,10 +201,10 @@ Uživatelské API se nachází v \M{/src/server/trpc/router/user.ts}. Definuje n
     \item beginTest -- vygeneruje test pro daného uživatele, uloží do databáze ID použitých otázek a čas ukončení testu 
     \item getTestData -- navrátí náhodně zamíchaná vygenerovaná data testu, označí test za aktivní
     \item submitAnswer -- přijímá odpověď na otázku, kterou uloží do databáze
-    \item submitTest -- potvrdí odevzdání testu, zablokuje další odevzdávání otázek. Zároveň test vyhodnotí a výsledky uloží do databáze
+    \item submitTest -- potvrdí odevzdání testu, zablokuje další odevzdávání otázek; zároveň test vyhodnotí a výsledky uloží do databáze
 \end{compactitem}
 
-Následuje ukázka endpointu \M{getTestData}
+Následuje ukázka endpointu \M{getTestData}.
 
 \begin{lstlisting}[language=JavaScript,caption={Endpoint getTestData}]
 getTestData: protectedProcedure.query(async ({ ctx }) => {
@@ -276,16 +273,16 @@ Učitelské API se nachází v \M{/src/server/trpc/router/admin.ts}. Definuje n�
     \item newQuestion -- vytvoří novou otázku s výchozími údaji a uloží ji do databáze
     \item getQuestionLevels -- vrátí počet otázek v databázi pro každou jazykovou obtížnost
     \item deleteQuestion -- odstraní otázku z databáze
-    \item getAllTests -- navrátí obecné informace o všech testech v databázi.
-    \item saveTest -- uloží nové údaje po editaci testu do databáze (vizte ODKAZ).
+    \item getAllTests -- navrátí obecné informace o všech testech v databázi
+    \item saveTest -- uloží nové údaje po editaci testu do databáze (vizte ODKAZ)
     \item deleteTest -- odstraní test z databáze (tento endpoint nelze spustit manuálně přes uživatelské rozhraní, používá se pouze interně)
     \item toggleTest -- označí test jako \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ}, podle jeho aktuálního stavu
     \item restartTest -- ze stavu \M{VYPLNĚNÝ} nevratně smaže data o vyplnění a vrátí ho do stavu \M{VYPNUTÝ}
-    \item areTestRunning -- vrátí pravdivostní hodnotu pokud je alespoň jeden test ve stavu \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ}
-    \item downloadResults -- vygeneruje excel tabulku do které přidá data výsledků daného testu převedenou do formátu Base64
+    \item areTestRunning -- vrátí pravdivostní hodnotu, pokud je alespoň jeden test ve stavu \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ}
+    \item downloadResults -- vygeneruje excel tabulku, do které přidá data výsledků daného testu, a vrátí ji převedenou do formátu Base64
 \end{compactitem}
 
-Následuje kód pro endpoint \M{downloadResults}
+Následuje kód pro endpoint \M{downloadResults}.
 
 \begin{lstlisting}[language=JavaScript,caption={Endpoint downloadResults}]
 downloadResults: teacherProcedure.input(z.object({testId: z.number()})).mutation(async ({ input }) => {
@@ -346,6 +343,100 @@ downloadResults: teacherProcedure.input(z.object({testId: z.number()})).mutation
 }),
 \end{lstlisting}
 
+\newpage
 \section{Komponenty a stránky}
 
-Vysrat se na to?
+Většinu programu tvoří komponenty a stránky knihovny \M{React}. Jedná se vlastně o~TypeScript soubor doplněný o prvky HTML, které se zobrazují v prohlížeči. Komponenty se nacházejí v \M{/src/components/}, stránky v \M{/src/pages/}. Níže následuje několik různých ukázek komponent a stránek použitých v aplikaci. 
+
+Zobrazení stavu testu podle aktuální hodnoty. V argumentech \M{className} HTML tagů lze vidět třídy \M{TailwindCSS}.
+
+\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/pages/admin/tests/index.tsx}; Status testu}]
+type TestBadgeProps = {
+    status: TestStatus,
+}
+
+const TestBadge: React.FC<TestBadgeProps> = (props) => {
+    const {
+        status,
+    } = props;
+
+    if (status == TestStatus.ACTIVE) return (
+        <p className="text-2xl font-bold text-green-600">
+            AKTIVNI
+        </p>
+    )
+    else if (status == TestStatus.IDLE) return (
+        <p className="text-2xl font-bold text-red-600">
+            VYPNUTY
+        </p>
+    )
+    else return (
+        <p className="text-2xl font-bold text-yellow-500">
+            VYPLNENY
+        </p>
+    )
+}
+\end{lstlisting}
+
+\newpage
+Při vyplňování textu otázky (vizte obrázek \ref{questionfill}) lze použít znak podtržítka \enquote{\_}, který se v textu otázky při vyplňování zobrazí jako světle fialový obdélník (vizte obrázek \ref{purplerect} u druhé otázky), který uživateli naznačuje, že se na dané místo má něco doplnit. 
+
+\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/pages/test/index.tsx}; komponent textu otázky, výměna znaku \enquote{\_} za fialový obdélník}]
+type QuestionTextProps = {
+    questionText: string,
+    id: number,
+}
+
+const QuestionText: React.FC<QuestionTextProps> = (props) => {
+    const {
+        questionText,
+        id,
+    } = props;
+
+    const ar = questionText.split("_");
+    return(
+        <div className="flex flex-row justify-between"> 
+            <h3 className="font-bold text-lg mb-3 my-auto">
+                {...intersperse(ar, (<span className="w-14 inline-block rounded-lg bg-purple-100 border-2 border-purple-200 mx-1 text-transparent">___</span>))}
+            </h3>
+            <p className="w-20 my-auto text-slate-300 hover:text-black hover:font-semibold mx-2">id: {id}</p>
+        </div>
+    )
+}
+\end{lstlisting}
+
+\newpage
+\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/pages/admin/grammar/index.tsx}; generování seznamu otázek z databáze}, label={xslxgen}]
+type QuestionsListingProps = {
+    questions: Question[] | undefined,
+    getQuestionDataCallback: (id: number) => void,
+};
+
+const QuestionsListing: React.FC<QuestionsListingProps> = (props) => {
+    const {
+        questions,
+        getQuestionDataCallback
+    } = props;
+
+    if (!questions) return (
+        <>
+        </>
+    );
+
+    return (
+        <>
+            {questions.map(question => (
+                <Link href={`/admin/grammar/?id=${question.id}`} key={question.id} onClick={() => getQuestionDataCallback(question.id)}>
+                    <div className="flex justify-start px-8 py-2 mb-2 text-left text-slate-700 hover:ring-2 ring-purple-600 rounded-3xl hover:cursor-pointer font-extrabold">
+                        {/* <p className="w-10 mr-4">{question.id}</p> */}
+                        <p className="w-96 mr-4 truncate">{question.questionText}</p>
+                        <p className="w-80 mr-4 truncate">{question.rightAnswer}</p>
+                        <p className="w-40 mr-4">{numToLevel(question.languageLevel)}</p>
+                        <p className="w-10 mr-4 text-slate-400">{question.id}</p>
+                    </div>
+                </Link>
+            ))}
+        </>
+    );
+}
+\end{lstlisting}

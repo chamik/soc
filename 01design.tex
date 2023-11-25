@@ -2,7 +2,7 @@
 
 \section{Motivace}
 
-Při tvorbě aplikace bylo neustále nutné myslet na dva hlavní faktory, kolem kterých se celý design musí odvíjet; to sice, že je program mířený pro dvě skupiny: učitele a žáky zároveň. 
+Při tvorbě aplikace bylo neustále nutné myslet na dva hlavní faktory, kolem kterých se celý design musí odvíjet; to sice, že je program dělaný pro dvě skupiny: učitele a~žáky zároveň. 
 
 Úkolem žáka je v časovém limitu odpovědět na jazykové otázky. Žák by měl mít co nejméně možností, jak podvádět, aby byl správně umístěn do jazykové skupiny úměrné jeho znalostem; dostane náhodnou sadu otázek různých obtížností, které pro jeho ročník navolí učitel.
 
@@ -80,7 +80,8 @@ V případě, že žák na testování chyběl a stránku si zobrazí poté, co 
 \begin{figure}[H]
     \centering
     \includegraphics[width=400px]{images/01design/otazky.png}
-    \caption{Dvě vygenerované otázky. Tmavě fialové zbravení značí výběr.}
+    \caption{Dvě vygenerované otázky. Tmavě fialové zbarvení značí výběr.}
+    \label{purplerect}
 \end{figure}
 
 \begin{figure}[H]
@@ -94,7 +95,7 @@ Po vyplnění testu může žák test odevzdat stisknutím tlačítka. Pokud tak
 \section{Učitelské rozhraní}
 \label{sec:admin}
 
-Učitelské rozhraní je poměrně komplikované, proto je rozdělené do několika částí. V těchto částech se lze navigovat pomocí takzvaného \enquote{navbaru}, který se nachází v horní části obrazovky.
+Učitelské rozhraní je poměrně komplikované, proto je rozděleno do několika částí. V těchto částech se lze pohybovat pomocí takzvaného \enquote{navbaru}, který se nachází v~horní části obrazovky.
 
 \begin{figure}[H]
     \centering
@@ -102,13 +103,13 @@ Učitelské rozhraní je poměrně komplikované, proto je rozdělené do někol
     \caption{Navbar v učitelském rozhraní.}
 \end{figure}
 
-V jeho levé části můžeme přepínat do různých částí programu; aktuálně vybranou část značí fialový obrys. V pravé části lze vidět uživatelské jméno a možnost odhlásit se.
+Na jeho levé straně můžeme přepínat do různých částí programu; aktuálně vybranou část značí fialový obrys. Na pravé straně lze vidět uživatelské jméno a možnost odhlásit se.
 
-Po přihlášení se uživatel dostane do záložky \enquote{Přehled}, kde je prozatím vidět pouze aktuální počet spuštěných testů.
+Po přechodu do administrátorské sekce se učitel dostane do záložky \enquote{Přehled}, kde je prozatím vidět pouze aktuální počet spuštěných testů.
 
 \subsection{Testy}
 
-Tato sekce programu slouží ke správě testů a k stahování zpracovaných výsledků.
+Tato sekce programu slouží ke správě testů a ke stahování zpracovaných výsledků.
 
 \begin{figure}[H]
     \centering
@@ -124,7 +125,7 @@ Při prvotním spuštění programu se automaticky vygeneruje osm testů (pro os
     \caption{Detail komponentu testu.}
 \end{figure}
 
-V levé části se nachází číslo ročníku a status testu (\M{VYPNUTÝ}, \M{AKTIVNÍ} a \M{VYPLNĚNÝ}). V sloupci gramatika lze vidět počet použitých otázek pro každou jazykovou obtížnost. V sloupci čas testu lze vidět časový limit v minutách. Úplně vpravo pak tlačítka pro nastavení a spuštění testu.
+V levé části se nachází číslo ročníku a status testu (\M{VYPNUTÝ}, \M{AKTIVNÍ} a~\M{VYPLNĚNÝ}). Ve sloupci Gramatika lze vidět počet použitých otázek pro každou jazykovou obtížnost. Ve sloupci Čas testu lze vidět časový limit v minutách. Úplně vpravo pak tlačítka pro nastavení a spuštění testu.
 
 \begin{figure}[H]
     \centering
@@ -136,7 +137,7 @@ V modálním\footnote{Modální okno je typ uživatelského rozhraní, které vy
 
 Tlačítko \M{Uložit} je zde spíše pro efekt, protože se stejně vše po zavření okna automaticky uloží.
 
-Po zmáčknutí tlačítka \M{Spustit} se test spustí, což je reflektováno v statusu testu a v zablokování možnosti nastavení. V tomto stavu máme pouze možnost test zastavit.
+Po zmáčknutí tlačítka \M{Spustit} se test spustí, což je reflektováno ve statusu testu a~v~zablokování možnosti Nastavení. V tomto stavu máme pouze možnost test zastavit.
 
 \begin{figure}[H]
     \centering
@@ -144,7 +145,7 @@ Po zmáčknutí tlačítka \M{Spustit} se test spustí, což je reflektováno v 
     \caption{Detail spuštěného testu.}
 \end{figure}
 
-Po zastavení testu je status \M{VYPLNĚNÝ}. Z tohoto stavu lze test znovu spustit tlačítkem \M{Restartovat} (toto je například potřeba, pokud během rozřazovacích testů někdo chyběl, což je poměrně pravděpodobné), \M{Smazat výsl}{edky} (tato možnost test dostane zpět do stavu \M{VYPNUTÝ} a je nevratná) a nebo si stáhnout výsledky ve formátu \M{.xlsx} (Excel tabulka).
+Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test znovu spustit tlačítkem \M{Restartovat} (toto je například potřeba, pokud během rozřazovacích testů někdo chyběl, což je poměrně pravděpodobné), \M{Smazat výsl}{edky} (tato možnost test dostane zpět do stavu \M{VYPNUTÝ} a je nevratná) a nebo si stáhnout výsledky ve formátu \M{.xlsx} (Excel tabulka).
 
 \begin{figure}[H]
     \centering
@@ -152,11 +153,11 @@ Po zastavení testu je status \M{VYPLNĚNÝ}. Z tohoto stavu lze test znovu spus
     \caption{Detail vyplněného testu.}
 \end{figure}
 
-Výsledná tabulka má sloupce pro jméno, e-mail, procentuální úspěšnost, získané body a ID špatně zodpovězených otázek (vizte ODKAZ). Řádky jsou seřazeny sestupně podle úspěšnosti.
+Výsledná tabulka má sloupce pro jméno, e-mail, procentuální úspěšnost, získané body a ID špatně zodpovězených otázek (vizte program \ref{xslxgen}). Řádky jsou seřazeny sestupně dle úspěšnosti.
 
 \subsection{Gramatika}
 
-Sekce Gramatika slouží k upravování gramatických otázek. Sestává se ze seznamu uložených otázek v databázi. V rychlém náhledu můžeme vidět text otázky, správnou odpověď, jazykovou úroveň otázky a ID. V horním pravém rohu této sekce se nachází tlačítko pro vytvoření nové otázky. Stejné tlačítko se nachází i na konci seznamu.
+Sekce Gramatika slouží k upravování gramatických otázek. Skládá se ze seznamu uložených otázek v databázi. V rychlém náhledu můžeme vidět text otázky, správnou odpověď, jazykovou úroveň a ID. V horním pravém rohu této sekce se nachází tlačítko pro vytvoření nové otázky. Stejné tlačítko se nachází i na konci seznamu.
 
 \begin{figure}[H]
     \centering
@@ -170,6 +171,7 @@ Po kliknutí na otázku se otevře modální okno s nastavením dané otázky. P
     \centering
     \includegraphics[width=400px]{images/01design/question.png}
     \caption{Modální okno nastavení gramatické otázky.}
+    \label{questionfill}
 \end{figure}
 
 Program automaticky kontroluje správnost zadaných údajů -- zdali se nějaká ze špatných odpovědí neshoduje se správnou a zdali jsou všechna políčka vyplněná. Výchozí hodnota jazykové obtížnosti je A1.
@@ -180,11 +182,11 @@ Program automaticky kontroluje správnost zadaných údajů -- zdali se nějaká
     \caption{Modální okno nastavení gramatické otázky s nesprávně vyplněnými hodnotami.}
 \end{figure}
 
-Pokud nejsou všechny pole vyplněna správně, nelze otázku uložit. Stále je však možné otázku smazat kliknutím na ikonku odpadkového koše v pravém horním rohu modálního okna.
+Pokud nejsou všechna pole vyplněna správně, nelze otázku uložit. Stále je však možné otázku smazat kliknutím na ikonku odpadkového koše v pravém horním rohu modálního okna.
 
-\section{O Programu}
+\section{O programu}
 
-Na hlavní stránce se na spodní straně obrazovky nachází odkaz na informace \M{O programu}. Nachází se zde stručný popis toho, o čem program je, kde lze nalézt zdroj programu a kdo je aktuální správce programu (nastavitelné v konfiguraci, vizte \ref{sec:config})
+Na hlavní stránce se na spodní straně obrazovky nachází odkaz na informace \M{O~programu}. Nachází se zde stručný popis toho, o čem program je, kde lze nalézt zdroj programu a kdo je aktuální správce programu (nastavitelné v konfiguraci, vizte \ref{sec:config}).
 
 \begin{figure}[H]
     \centering
