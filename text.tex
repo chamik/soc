@@ -20,8 +20,12 @@
 \usepackage{float}
 \usepackage{titlesec}
 \usepackage[bottom, hang, flushmargin]{footmisc}
-\usepackage{xcolor}
+% clash with jslistings and prismalistings
+% \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{paralist}
+\usepackage{jslistings}
+\usepackage{prismalistings}
 \input{ColorSyntax}
 \renewcommand{\lstlistingname}{Program}
 \renewcommand{\lstlistlistingname}{Seznam programů}

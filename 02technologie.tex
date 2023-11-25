@@ -18,6 +18,8 @@ Jedno z prvních rozhodnutí, které musí člověk při tvorbě projektu uděla
 
 Framework je jakási nadstavba nad programovacím jazykem a má proces vytváření webových aplikací usnadnit. Při tvorbě webové aplikace fungují jako páteř, na které stojí vše ostatní. \M{T3 Stack} přichází s frameworkem \M{Next.js}, který je sám o sobě nadstavbou nad populárním frameworkem \M{React}. Nabízí mnoho funkcí, jmenovitě například možnost výběru stylu renderování stránky, automatické optimalizace a různé další funkcionality.\cite{nextjs}
 
+% TODO: TRPC??
+
 Databáze je další klíčovou součástí jakékoli větší aplikace. Pro tento projekt jsem zvolil \M{PostgreSQL}; jedná se o jeden z nejvšestranějších volně dostupných databázových systémů.
 
 \M{T3 Stack} přichází s knihovnou \M{Prisma}, která komunikaci s databázi usnadňuje například tím, že pro TypeScript generuje typy podle definovaného schéma.
@@ -70,8 +72,6 @@ GOOGLE_CLIENT_SECRET=
 
 Kvůli bezpečnosti nejsou ve výchozím stavu tyto proměnné přístupné v klientské aplikaci. Proto je potřeba k názvu těch, které na klientu chceme používat, na začátek přidat \enquote{\M{NEXT\_PUBLIC\_}}. \M{Next.js} poté tyto proměnné v klientské aplikaci zpřístupní.
 
-\subsubsection{Docker}
-
 Pro usnadnění spouštění programu lze projekt spustit v Docker kontejneru. Soubor \M{Dockerfile} definuje, jak program sestavit a spustit. Soubor \M{docker-compose.yml} poté definuje, jak se má spustit databáze spolu s programem a jak mezi sebou komunikují. \cite{docker}
 
 Script \M{start.sh} podle nastavení při každém spuštění provede migrace databáze a končeně spouští program.
@@ -82,10 +82,7 @@ Schéma databáze je definované pomocí souboru \M{prisma/schema.prisma}. Obsah
 
 Výhodou tohoto přístupu je, že \M{Prisma} dokáže převádět tento obecný zápis a dotazy na specifické verze SQL podle použité databáze. \cite{prisma} Níže následuje úryvek schématu.
 
-\indent
-
-\hrule
-\begin{verbatim}
+\begin{lstlisting}[language=Prisma, caption={Úryvek schéma databáze}]
 model Question {
     id            Int          @id @default(autoincrement())
     languageLevel Int          @default(0)
@@ -103,8 +100,7 @@ enum QuestionType {
     READING
     LISTENING
 }
-\end{verbatim}
-\hrule
+\end{lstlisting}
 
 \begin{figure}[H]
     \centering
@@ -124,10 +120,7 @@ Specifická implementace se nachází v \M{src/pages/api/auth/[...nextauth].ts}.
 
 Pokud ne, program se ujistí, že je e-mail součástí školní domény. Poté je díky specifické konvenci GJP-ME dávat žákům e-mailové adresy ve formátu \M{[rok nástupu na školu][typ studia][pořadí žáka v abecedním seznamu]@gjp-me.cz} schopen získat rok nástupu žáka a podle toho vypočítat, v jakém ročníku se aktuálně nachází (vizte níže). Všechny tyto údaje jsou uloženy do databáze.
 
-\indent
-
-\hrule
-\begin{verbatim}
+\begin{lstlisting}[language=JavaScript,caption={Zjištění aktuálního ročníku uživatele}]
 function parseUserLevel(email: string) {
     const emailId = email.split('@')[0];
     
@@ -148,8 +141,7 @@ function parseUserLevel(email: string) {
     
     return level;
 }
-\end{verbatim}
-\hrule
+\end{lstlisting}
 
 Aby bylo přihlašování přes Google účet možné, je potřeba svoji aplikaci registrovat v Google Developer Console. Zde je možné editovat, k jakým údajům uživatele má aplikace přístup (v tomto případě pouze ke jménu a e-mailu), název aplikace zobrazený uživateli aj. Také je zde potřeba správně nastavit callback adresu -- kam Google uživatele přesměruje po přihlášení -- a potvrzené zdroje JavaScriptu.
 
@@ -171,5 +163,189 @@ K potvrzení identity uživatele se používá protokol OAuth 2.0, který \M{Nex
 
 Pokud celý tento proces proběhl úspěšně, je uživatel přesměrován zpět na hlavní stránku (vizte \ref{sec:login-design}). Pokud ne, uživateli je sděleno, že přihlašování neproběhlo úspěšně a je přesměrován na interní stránku \M{NextAuth.js}, kde má možnost se zkusit přihlásit znovu.
 
-\section{Komponenty}
+\section{API}
+\label{api}
 
+Přestože se celý program zapisuje do jedné souborové struktury, běží některý kód pouze na serveru. Tento kód se nachází v \M{/src/server/}. \M{Next.js} při kompilaci spojí všechny typescript zdrojové soubory a vytvoří z nich jeden javascript program. Tento program spustí svůj webserver na portu definovaném v konfiguraci (vizte ODKAZ). API\footnote{API (application programming interface; česky rozhraní pro programování aplikací) definuje možnosti vzájemné komunikace aplikací (v tomto případě serveru a klienta).} samotné je dostupné na cestě \M{[doména]/api/trpc/} -- tato adresa je definována v \M{/src/utils/tprc.ts} a je na ni možné posílat tradiční json požadavky. Toto API využívá v pozadí i aplikace.
+
+API je rozdělené do dvou hlavních částí s různými pravomocemi -- uživatelské a učitelské. Uživatelské je dostupné všem přihlášeným uživatelům. Učitelské je dostupné pouze oprávněným uživatelům -- server si zkontroluje, pokud je u uživatele v databázi vyplněná kolonka \M{isTeacher}. Tento kód se nachází v \M{/src/server/trpc/trpc.ts} a jeho ukázka je níže.
+
+\begin{lstlisting}[language=JavaScript,caption={Kontrola přístupu do učitelského rozhraní}]
+const isTeacher = t.middleware(async ({ ctx, next }) => {
+    if (!ctx.session || !ctx.session.user) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+    
+    const user = await ctx.prisma.user.findFirst({ where: 
+        { email: ctx.session.user.email }});
+
+    if (!user || !user.isTeacher)
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+    
+    return next({
+        ctx: {
+        // infers the `session` as non-nullable
+        session: { ...ctx.session, user: ctx.session.user },
+        },
+    });
+});
+
+export const teacherProcedure = t.procedure.use(isTeacher);
+\end{lstlisting}
+
+\subsection{Uživatelské API}
+\label{userapi}
+
+Uživatelské API se nachází v \M{/src/server/trpc/router/user.ts}. Definuje následující endpointy\footnote{API endpoint je specifický koncový bod nebo URL v rámci API, které představuje konkrétní operaci nebo zdroj poskytovaný daným rozhraním. V tomto případě každý endpoint reprezentuje jednu funkci na severu.}:
+
+% TODO: tečky na konci řádků?
+\begin{compactitem}
+    \item getUserData -- vrátí informace o přihlášeném uživateli, aktuálním spuštěném testu a případně o vyplněném testu
+    \item beginTest -- vygeneruje test pro daného uživatele, uloží do databáze ID použitých otázek a čas ukončení testu 
+    \item getTestData -- navrátí náhodně zamíchaná vygenerovaná data testu, označí test za aktivní
+    \item submitAnswer -- přijímá odpověď na otázku, kterou uloží do databáze
+    \item submitTest -- potvrdí odevzdání testu, zablokuje další odevzdávání otázek. Zároveň test vyhodnotí a výsledky uloží do databáze
+\end{compactitem}
+
+Následuje ukázka endpointu \M{getTestData}
+
+\begin{lstlisting}[language=JavaScript,caption={Endpoint getTestData}]
+getTestData: protectedProcedure.query(async ({ ctx }) => {
+    const user = await prisma.user.findFirst({ 
+        where: { email: ctx.session.user.email },
+    });
+
+    if (!user)
+        return;
+
+    const sesh = await prisma.testSession.findFirst({
+        where: { userId: user.id },
+    })
+
+    if (!sesh)
+        return;
+
+    const questionsIds = sesh.grammarQuestionsIds;
+    const questions = await prisma.question.findMany({
+        where: {
+            id: { in: questionsIds }
+        },
+        select: {
+            id: true,
+            questionText: true,
+            rightAnswer: true,
+            wrongAnswers: true,
+        },
+    });
+
+    const shuffled = shuffle(questions.map(x => ({
+        id: x.id,
+        questionText: x.questionText,
+        answers: shuffle([x.rightAnswer, ...x.wrongAnswers]),
+    })));
+
+    const answers = await prisma.answer.findMany({
+        where: {
+        testSessionId: sesh.id,
+        },
+        select: {
+        questionId: true,
+        answer: true,
+        },
+    });
+
+    return ({
+        questions: shuffled,
+        testSession: sesh,
+        submittedAnswers: answers,
+    });
+}),
+\end{lstlisting}
+
+\newpage
+\subsection{Učitelské API}
+\label{adminapi}
+
+Učitelské API se nachází v \M{/src/server/trpc/router/admin.ts}. Definuje následující endpointy:
+
+\begin{compactitem}
+    \item getAllQuestions -- navrátí obecné informace o všech otázkách v databázi
+    \item getQuestionById -- získá detail otázky z databáze podle daného ID
+    \item getTestById -- získá detail testu z databáze podle daného ID
+    \item saveQuestion -- uloží nové údaje po editaci otázky do databáze (vizte ODKAZ)
+    \item newQuestion -- vytvoří novou otázku s výchozími údaji a uloží ji do databáze
+    \item getQuestionLevels -- vrátí počet otázek v databázi pro každou jazykovou obtížnost
+    \item deleteQuestion -- odstraní otázku z databáze
+    \item getAllTests -- navrátí obecné informace o všech testech v databázi.
+    \item saveTest -- uloží nové údaje po editaci testu do databáze (vizte ODKAZ).
+    \item deleteTest -- odstraní test z databáze (tento endpoint nelze spustit manuálně přes uživatelské rozhraní, používá se pouze interně)
+    \item toggleTest -- označí test jako \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ}, podle jeho aktuálního stavu
+    \item restartTest -- ze stavu \M{VYPLNĚNÝ} nevratně smaže data o vyplnění a vrátí ho do stavu \M{VYPNUTÝ}
+    \item areTestRunning -- vrátí pravdivostní hodnotu pokud je alespoň jeden test ve stavu \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ}
+    \item downloadResults -- vygeneruje excel tabulku do které přidá data výsledků daného testu převedenou do formátu Base64
+\end{compactitem}
+
+Následuje kód pro endpoint \M{downloadResults}
+
+\begin{lstlisting}[language=JavaScript,caption={Endpoint downloadResults}]
+downloadResults: teacherProcedure.input(z.object({testId: z.number()})).mutation(async ({ input }) => {
+    const test = await prisma.test.findFirst({ where: { id: input.testId }});
+    if (!test) return;
+    
+    if (test.status != TestStatus.PENDING) return;
+
+    const results = await prisma.testSession.findMany({
+      where: {
+        testId: input.testId,
+      }, 
+      orderBy: {
+        successRate: "desc",
+      }
+    });
+
+    if (!results) return;
+
+    const users = await prisma.user.findMany({
+      where: {
+        id: {
+          in: results.map(x => x.userId),
+        }, 
+      },
+    })
+
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Vysledky testu')
+
+    worksheet.columns = [
+      { header: "Jmeno", key: "name", width: 25 },
+      { header: "E-mail", key: "email", width: 30 },
+      { header: "Body gr.", key: "points_gr", width: 10},
+      { header: "Uspesnost gr.", key: "success_gr", width: 15 },
+      { header: "ID spatnych odpovedi gr.", key: "wrong_ids_gr", width: 40 },
+    ];
+
+    const usrs = users.reduce((acc, user) => {
+      acc[user.id] = user;
+      return acc;
+    }, {} as { [key: string]: typeof users[0] });
+
+    results.forEach(s => {
+      worksheet.addRow({
+        name: usrs[s.userId]?.name ?? "Bezejmenny",
+        email: usrs[s.userId]?.email ?? "???",
+        points_gr: s.correctAnswers.length,
+        success_gr: (s.successRate * 100).toFixed(1) + "%",
+        wrong_ids_gr: s.wrongAnswers.join(" "),
+      });
+    });
+
+    const bf = await workbook.xlsx.writeBuffer();
+    const st = Buffer.from(bf).toString("base64");
+
+    return st;
+}),
+\end{lstlisting}
+
+\section{Komponenty a stránky}
+
+Vysrat se na to?
