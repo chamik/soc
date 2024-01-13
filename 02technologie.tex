@@ -24,7 +24,7 @@ Databáze je další klíčovou součástí jakékoli větší aplikace. Pro ten
 
 \M{T3 Stack} přichází s knihovnou \M{Prisma}, která komunikaci s databází usnadňuje například tím, že pro TypeScript generuje typy podle definovaného schématu.
 
-Na rozdíl od jiných populárních CSS frameworků, jako je například \M{Bootstrap} nebo \M{Skeleton} se \M{TailwindCSS} liší tím, že nenabízí již předem připravené komponenty, ale pouze profesionály definované CSS třídy. Vývojář díky tomu není žádným způsobem omezován.\footnote{Navíc, pokud je člověk ve tvorbě webů zběhlý, na první pohled dokáže poznat připravené komponenty z populárních CSS  frameworků, což je vzhled, kterému jsem se chtěl vyvarovat.}\cite{tailwind} \M{TailwindCSS} je automaticky obsažen v \M{T3 Stack}u.
+Na rozdíl od jiných populárních CSS frameworků, jako je například \M{Bootstrap} nebo \M{Skeleton}, se \M{TailwindCSS} liší tím, že nenabízí již předem připravené komponenty, ale pouze profesionály definované CSS třídy. Vývojář díky tomu není žádným způsobem omezován.\footnote{Navíc, pokud je člověk ve tvorbě webů zběhlý, na první pohled dokáže poznat připravené komponenty z populárních CSS  frameworků, což je vzhled, kterému jsem se chtěl vyvarovat.}\cite{tailwind} \M{TailwindCSS} je automaticky obsažen v \M{T3 Stack}u.
 
 Autentifikace je při tvorbě webových aplikací častým úskalím, proto \M{T3 Stack} automaticky přichází s \M{NextAuth.js}, což je rozšíření pro použitý framework \M{Next.js}. Umožňuje přihlašování s Google účtem, což je pro tuto aplikaci potřeba. Jedná se o léta používaný standard, což je u bezpečnostně kritického komponentu jedna~z žádaných vlastností. Zároveň jsou všechny kritické bezpečnostní chyby hlášeny na amerických státních stránkách NIST.
 
@@ -66,15 +66,15 @@ GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 \end{lstlisting}
 
-Kvůli bezpečnosti nejsou ve výchozím stavu tyto proměnné přístupné v klientské aplikaci. Proto je potřeba k názvu těch, které na klientu chceme používat, na začátek přidat \enquote{\M{NEXT\_PUBLIC\_}}. \M{Next.js} poté tyto proměnné v klientské aplikaci zpřístupní.
+Kvůli bezpečnosti nejsou ve výchozím stavu tyto proměnné přístupné v klientské aplikaci. Proto je potřeba k názvu těch, které na klientu chceme používat, na začátek přidat \enquote{\M{NEXT\_PUBLIC\_}}. \M{Next.js} tyto proměnné v klientské aplikaci zpřístupní.
 
-Pro usnadnění spouštění programu lze projekt spustit v Docker kontejneru. Soubor \M{Dockerfile} definuje, jak program sestavit a spustit. Soubor \M{docker-compose.yml} poté definuje, jak se má spustit databáze spolu s programem a jak mezi sebou komunikují. \cite{docker}
+Pro usnadnění spouštění programu lze projekt spustit v Docker kontejneru. Soubor \M{Dockerfile} definuje jak program sestavit a spustit; \M{docker-compose.yml} poté definuje, jak se má spustit databáze spolu s programem a jak mezi sebou komunikují. \cite{docker}
 
 Script \M{start.sh} podle nastavení při každém spuštění provede migrace databáze a~konečně spouští program.
 
 \subsection{Databáze}
 
-Schéma databáze je definované pomocí souboru \M{prisma/schema.prisma}. Obsahuje definice uživatelů, testů, odpovědí, aktuálních přihlášení aj. (vizte obrázek \ref{schema}). Jedná se o soubor se speciálním zápisem, který následně \M{Prisma} používá k vytváření SQL migrací, Typescript typů atd. Díky této funkcionalitě v programu není ani jeden ručně psaný řádek SQL kódu.
+Schéma databáze je definované pomocí souboru \M{prisma/schema.prisma}. Obsahuje definice uživatelů, testů, odpovědí, aktuálních přihlášení aj. (viz obrázek \ref{schema}). Jedná se o soubor se speciálním zápisem, který následně \M{Prisma} používá k vytváření SQL migrací, Typescript typů atd. Díky této funkcionalitě v programu není ani jeden ručně psaný řádek SQL kódu.
 
 Výhodou tohoto přístupu je, že \M{Prisma} dokáže převádět tento obecný zápis a dotazy na specifické verze SQL podle použité databáze. \cite{prisma} Níže následuje úryvek schématu.
 
@@ -102,20 +102,19 @@ enum QuestionType {
 \begin{figure}[H]
     \centering
     \includegraphics[width=420px]{images/02technologie/schema3.png}
-    \caption{Vizualizované schéma databáze. Každý blok popisuje jednu tabulku. Bloky se zeleným pruhem značí definované typy. V tabulce se nachází jména sloupců společně s jejich typy. Šedé čáry značí relace.}
+    \caption{Vizualizované schéma databáze. \newline Každý blok popisuje jednu tabulku. Bloky se zeleným pruhem značí definované typy. V tabulce se nachází jména sloupců společně s jejich typy. Šedé čáry značí relace.}
     \label{schema}
 \end{figure}
 
-Během vývoje se schéma databáze měnilo. Při každé změně byla vytvořena migrace, která změnu přesně popisuje. Díky tomu lze program vracet do různých fází vývoje a aktualizovat živou\footnote{Takzvaná živá databáze je databáze s produkčními daty. Při vývoji se používá databáze lokální, aby případně nedošlo ke katastrofické ztrátě dat.} databázi bez větších problémů. Všechny migrace se nachází ve složce \M{prisma/migrations/}.
 
 \subsection{Přihlašování}
 \label{sec:login}
 
 Boilerplate\footnote{Boilerplate je opakující se nebo standardní kód, který je často používán v různých částech softwaru a aplikací. Jedná se o kód, který obsahuje základní strukturu a funkce.} kód pro přihlašování přichází s \M{T3 Stack}em už připravený, je však upraven tak, aby vyhovoval požadavkům projektu -- specificky, aby aplikace umožňovala přihlašování se školním Google účtem.
 
-Specifická implementace se nachází v \M{src/pages/api/auth/[...nextauth].ts}. Při přihlášení si program kontroluje použitou e-mailovou adresu -- nejdříve pokud se nachází v seznamu učitelů (vizte \ref{sec:config}), v takovém případě uživateli přidělí roli učitele s přístupem do učitelského rozhraní (vizte \ref{sec:admin}). 
+Specifická implementace se nachází v \M{src/pages/api/auth/[...nextauth].ts}. \newline Při přihlášení si program kontroluje použitou e-mailovou adresu -- nejdříve pokud se nachází v seznamu učitelů (viz \ref{sec:config}), v takovém případě uživateli přidělí roli učitele s přístupem do učitelského rozhraní (viz \ref{sec:admin}). 
 
-Pokud ne, program se ujistí, že je e-mail součástí školní domény. Poté je díky specifické konvenci GJP-ME dávat žákům e-mailové adresy ve formátu \M{[rok nástupu na školu][typ studia][pořadí žáka v abecedním seznamu]@gjp-me.cz} schopen získat rok nástupu žáka a podle toho vypočítat, v jakém ročníku se aktuálně nachází (vizte níže). Všechny tyto údaje jsou uloženy do databáze.
+Pokud ne, program se ujistí, že je e-mail součástí školní domény. Díky konvenci GJP-ME dávat do emailových adres žáků rok jejich nastoupení je program schopen vypočítat jejich aktuální ročník (viz níže).
 
 \begin{lstlisting}[language=JavaScript,caption={Zjištění aktuálního ročníku uživatele}]
 function parseUserLevel(email: string) {
@@ -140,7 +139,7 @@ function parseUserLevel(email: string) {
 }
 \end{lstlisting}
 
-Aby bylo přihlašování přes Google účet možné, je potřeba svoji aplikaci registrovat v Google Developer Console. Zde je možné editovat, k jakým údajům uživatele má aplikace přístup (v tomto případě pouze ke jménu a e-mailu), název aplikace zobrazený uživateli aj. Také je zde potřeba správně nastavit callback adresu -- kam Google uživatele přesměruje po přihlášení -- a potvrzené zdroje JavaScriptu.
+Aby bylo přihlašování přes Google účet možné, je potřeba svoji aplikaci registrovat v Google Developer Console. Zde lze editovat, k jakým údajům uživatele má aplikace přístup (v tomto případě pouze ke jménu a e-mailu), název aplikace zobrazený uživateli aj. Také je zde potřeba správně nastavit callback adresu -- kam Google uživatele přesměruje po přihlášení -- a potvrzené zdroje JavaScriptu.
 
 \begin{figure}[H]
     \centering
@@ -148,7 +147,7 @@ Aby bylo přihlašování přes Google účet možné, je potřeba svoji aplikac
     \caption{Redigovaný snímek obrazovky z Google Developer Console.}
 \end{figure}
 
-Po správném nastavení a potvrzení administrátorem organizace, podle použité domény aplikace, je na této stránce možné získat \M{CLIENT\_ID} a \M{CLIENT\_SECRET}, které je potřeba vyplnit v konfiguračním souboru aplikace (vizte \ref{sec:config}).
+Po správném nastavení a potvrzení administrátorem organizace, podle použité domény aplikace, je na této stránce možné získat \M{CLIENT\_ID} a \M{CLIENT\_SECRET}, které je potřeba vyplnit v konfiguračním souboru aplikace (viz \ref{sec:config}).
 
 K potvrzení identity uživatele se používá protokol \M{OAuth 2.0}, který \M{NextAuth.js} automaticky zpracuje a vývojáři zpřístupní relevantní údaje, jako je například právě e-mail a jméno.
 
@@ -158,12 +157,12 @@ K potvrzení identity uživatele se používá protokol \M{OAuth 2.0}, který \M
     \caption{Schéma komunikace aplikace se servery Googlu během přihlašování. Sdíleno Googlem. \cite{google-auth}}
 \end{figure}
 
-Pokud celý tento proces proběhl úspěšně, je uživatel přesměrován zpět na hlavní stránku (vizte \ref{sec:login-design}). Pokud ne, uživateli je sděleno, že přihlašování neproběhlo úspěšně a je přesměrován na interní stránku \M{NextAuth.js}, kde má možnost se zkusit přihlásit znovu.
+Pokud celý tento proces proběhl úspěšně, je uživatel přesměrován zpět na hlavní stránku (viz \ref{sec:login-design}). Pokud ne, uživateli je sděleno, že přihlašování neproběhlo úspěšně, a je přesměrován na interní stránku \M{NextAuth.js}, kde má možnost se zkusit přihlásit znovu.
 
 \section{API}
 \label{api}
 
-Přestože se celý program zapisuje do jedné souborové struktury, běží některý kód pouze na serveru. Tento kód se nachází v \M{/src/server/}. \M{Next.js} při kompilaci spojí všechny typescript zdrojové soubory a vytvoří z nich jeden javascript program. Tento program spustí svůj webserver na portu definovaném v konfiguraci (vizte \ref{sec:config}). API\footnote{API (application programming interface; česky rozhraní pro programování aplikací) definuje možnosti vzájemné komunikace aplikací (v tomto případě serveru a klienta).} samotné je dostupné na cestě \M{[doména]/api/trpc/} -- tato adresa je definována v \M{/src/utils/tprc.ts} a je na ni možné posílat tradiční \M{json} požadavky. Toto API využívá v pozadí i aplikace.
+Přestože se celý program zapisuje do jedné souborové struktury, běží některý kód pouze na serveru. Tyto funkce se nachází v \M{/src/server/}. \M{Next.js} při kompilaci spojí všechny typescript zdrojové soubory a vytvoří z nich jeden javascript program. Tento program spustí svůj webserver na portu definovaném v konfiguraci (viz \ref{sec:config}). API\footnote{API (application programming interface; česky rozhraní pro programování aplikací) definuje možnosti vzájemné komunikace aplikací (v tomto případě serveru a klienta).} samotné je dostupné na cestě \M{[doména]/api/trpc/} -- tato adresa je definována v \M{/src/utils/tprc.ts} a je na ni možné posílat tradiční \M{json} požadavky. Toto API využívá v pozadí i aplikace.
 
 API je rozdělené do dvou hlavních částí s různými pravomocemi -- uživatelské a učitelské. Uživatelské je dostupné všem přihlášeným uživatelům. Učitelské je dostupné pouze oprávněným uživatelům -- server si zkontroluje, pokud je u uživatele v databázi vyplněná kolonka \M{isTeacher}. Tento kód se nachází v \M{/src/server/trpc/trpc.ts} a jeho ukázka je níže.
 
@@ -197,11 +196,11 @@ Uživatelské API se nachází v \M{/src/server/trpc/router/user.ts}. Definuje n
 
 % TODO: tečky na konci řádků?
 \begin{compactitem}
-    \item getUserData -- vrátí informace o přihlášeném uživateli, aktuálním spuštěném testu a případně o vyplněném testu
-    \item beginTest -- vygeneruje test pro daného uživatele, uloží do databáze ID použitých otázek a čas ukončení testu 
-    \item getTestData -- navrátí náhodně zamíchaná vygenerovaná data testu, označí test za aktivní
-    \item submitAnswer -- přijímá odpověď na otázku, kterou uloží do databáze
-    \item submitTest -- potvrdí odevzdání testu, zablokuje další odevzdávání otázek; zároveň test vyhodnotí a výsledky uloží do databáze
+    \item getUserData -- vrátí informace o přihlášeném uživateli, aktuálním spuštěném testu a případně o vyplněném testu;
+    \item beginTest -- vygeneruje test pro daného uživatele, uloží do databáze ID použitých otázek a čas ukončení testu ;
+    \item getTestData -- navrátí náhodně zamíchaná vygenerovaná data testu, označí test za aktivní;
+    \item submitAnswer -- přijímá odpověď na otázku, kterou uloží do databáze;
+    \item submitTest -- potvrdí odevzdání testu, zablokuje další odevzdávání otázek, zároveň test vyhodnotí a výsledky uloží do databáze.
 \end{compactitem}
 
 Následuje ukázka endpointu \M{getTestData}.
@@ -266,20 +265,20 @@ getTestData: protectedProcedure.query(async ({ ctx }) => {
 Učitelské API se nachází v \M{/src/server/trpc/router/admin.ts}. Definuje následující endpointy:
 
 \begin{compactitem}
-    \item getAllQuestions -- navrátí obecné informace o všech otázkách v databázi
-    \item getQuestionById -- získá detail otázky z databáze podle daného ID
-    \item getTestById -- získá detail testu z databáze podle daného ID
-    \item saveQuestion -- uloží nové údaje po editaci otázky do databáze (vizte ODKAZ)
-    \item newQuestion -- vytvoří novou otázku s výchozími údaji a uloží ji do databáze
-    \item getQuestionLevels -- vrátí počet otázek v databázi pro každou jazykovou obtížnost
-    \item deleteQuestion -- odstraní otázku z databáze
-    \item getAllTests -- navrátí obecné informace o všech testech v databázi
-    \item saveTest -- uloží nové údaje po editaci testu do databáze (vizte ODKAZ)
-    \item deleteTest -- odstraní test z databáze (tento endpoint nelze spustit manuálně přes uživatelské rozhraní, používá se pouze interně)
-    \item toggleTest -- označí test jako \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ}, podle jeho aktuálního stavu
-    \item restartTest -- ze stavu \M{VYPLNĚNÝ} nevratně smaže data o vyplnění a vrátí ho do stavu \M{VYPNUTÝ}
-    \item areTestRunning -- vrátí pravdivostní hodnotu, pokud je alespoň jeden test ve stavu \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ}
-    \item downloadResults -- vygeneruje excel tabulku, do které přidá data výsledků daného testu, a vrátí ji převedenou do formátu Base64
+    \item getAllQuestions -- navrátí obecné informace o všech otázkách v databázi;
+    \item getQuestionById -- získá detail otázky z databáze podle daného ID;
+    \item getTestById -- získá detail testu z databáze podle daného ID;
+    \item saveQuestion -- uloží nové údaje po editaci otázky do databáze;
+    \item newQuestion -- vytvoří novou otázku s výchozími údaji a uloží ji do databáze;
+    \item getQuestionLevels -- vrátí počet otázek v databázi pro každou jazykovou obtížnost;
+    \item deleteQuestion -- odstraní otázku z databáze;
+    \item getAllTests -- navrátí obecné informace o všech testech v databázi;
+    \item saveTest -- uloží nové údaje po editaci testu do databáze;
+    \item deleteTest -- odstraní test z databáze (tento endpoint nelze spustit manuálně přes uživatelské rozhraní, používá se pouze interně);
+    \item toggleTest -- označí test jako \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ}, podle jeho aktuálního stavu;
+    \item restartTest -- ze stavu \M{VYPLNĚNÝ} nevratně smaže data o vyplnění a vrátí ho do stavu \M{VYPNUTÝ};
+    \item areTestRunning -- vrátí pravdivostní hodnotu, pokud je alespoň jeden test ve stavu \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ};
+    \item downloadResults -- vygeneruje excel tabulku, do které přidá data výsledků daného testu, a vrátí ji převedenou do formátu Base64.
 \end{compactitem}
 
 Následuje kód pro endpoint \M{downloadResults}.
@@ -379,7 +378,7 @@ const TestBadge: React.FC<TestBadgeProps> = (props) => {
 \end{lstlisting}
 
 \newpage
-Při vyplňování textu otázky (vizte obrázek \ref{questionfill}) lze použít znak podtržítka \enquote{\_}, který se v textu otázky při vyplňování zobrazí jako světle fialový obdélník (vizte obrázek \ref{purplerect} u druhé otázky), který uživateli naznačuje, že se na dané místo má něco doplnit. 
+Při vyplňování textu otázky (viz obrázek \ref{questionfill}) lze použít znak podtržítka \enquote{\_}, který se v textu otázky při vyplňování zobrazí jako světle fialový obdélník (viz obrázek \ref{purplerect} u druhé otázky), který uživateli naznačuje, že se na dané místo má něco doplnit. 
 
 \begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/pages/test/index.tsx}; komponent textu otázky, výměna znaku \enquote{\_} za fialový obdélník}]
 type QuestionTextProps = {

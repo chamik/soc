@@ -2,11 +2,11 @@
 
 \section{Motivace}
 
-Při tvorbě aplikace bylo neustále nutné myslet na dva hlavní faktory, kolem kterých se celý design musí odvíjet; to sice, že je program dělaný pro dvě skupiny: učitele a~žáky zároveň. 
+Při tvorbě aplikace bylo neustále nutné myslet na dva hlavní faktory, kolem kterých se celý design musí odvíjet; program je určený pro dvě skupiny: učitele a~žáky zároveň. 
 
-Úkolem žáka je v časovém limitu odpovědět na jazykové otázky. Žák by měl mít co nejméně možností, jak podvádět, aby byl správně umístěn do jazykové skupiny úměrné jeho znalostem; dostane náhodnou sadu otázek různých obtížností, které pro jeho ročník navolí učitel.
+Úkolem žáka je v časovém limitu odpovědět na jazykové otázky. Žák by měl mít co nejméně možností jak podvádět, aby byl správně umístěn do jazykové skupiny úměrné jeho znalostem; dostane náhodnou sadu otázek různých obtížností, které pro jeho ročník navolí učitel.
 
-Učitel pracuje se svým vlastním rozhraním, kde zadává otázky, vytváří testy, kontroluje průběh testování a získává automaticky zpracované výsledky.
+Učitel pracuje se svým vlastním rozhraním, kde zadává otázky, vytváří testy, \mbox{kontroluje} průběh testování a získává automaticky zpracované výsledky.
 
 V obou případech je důležité, aby byla webová aplikace intuitivní na používání, měla příjemný design a hlavně spolehlivě fungovala.
 
@@ -21,7 +21,7 @@ Ještě před tím, než se uživatelé dostanou do svého rozhraní, je potřeb
     \caption{Přihlašovací stránka je hlavní stránkou aplikace.}
 \end{figure}
 
-Učitelé a žáci se přihlásí pomocí svého školního Google účtu (vizte \ref{sec:login}).
+Učitelé a žáci se přihlásí pomocí svého školního Google účtu (viz \ref{sec:login}).
 
 \newpage
 
@@ -49,7 +49,7 @@ Pokud je pro ročník přihlášeného žáka aktuálně aktivovaný test, je vi
     \caption{Hlavní stránka po přihlášení žáka se zadaným testem.}
 \end{figure}
 
-Při aktivovaném testu může žák test spustit. Po spuštění se pro žáka vygeneruje originální sada otázek (vizte \ref{userapi}) a žák je přesměrován do žákovského rozhraní. Pokud žák během testu tuto stránku opustí (například kvůli technickým potížím, výpadku proudu, atp.), zůstává test spuštěný a je možné pokračovat v jeho vyplňování z hlavní stránky. 
+Při aktivovaném testu může žák test spustit. Po spuštění se pro žáka vygeneruje originální sada otázek (viz \ref{userapi}) a žák je přesměrován do žákovského rozhraní. Pokud žák během testu tuto stránku opustí (například kvůli technickým potížím, výpadku proudu, atp.), zůstává test spuštěný a je možné pokračovat v jeho vyplňování z hlavní stránky. 
 
 \begin{figure}[H]
     \centering
@@ -75,7 +75,7 @@ V případě, že žák na testování chyběl a stránku si zobrazí poté, co 
 
 \section{Žákovské rozhraní}
 
-Žákovské rozhraní slouží k vyplňování vygenerovaných testů. Pro každý ročník je předem nastavený čas a počet otázek různých obtížností (vizte \ref{adminapi}). Z banky otázek je podle těchto kritérií několik náhodně vybráno a zobrazeno. Otázky mohou být různého druhu, ale u každé otázky je vždy na výběr ze čtyř možností z nichž právě jedna je správná. V pravém horním rohu každé otázky lze slabě vidět ID otázky (pro usnadnění komunikace s učitelem, například pokud student v otázce najde chybu).
+Žákovské rozhraní slouží k vyplňování vygenerovaných testů. Pro každý ročník je předem nastavený čas a počet otázek různých obtížností (viz \ref{adminapi}). Z banky otázek je podle těchto kritérií několik náhodně vybráno a zobrazeno. Otázky mohou být různého druhu, ale u každé otázky je vždy na výběr ze čtyř možností, z nichž právě jedna je správná. V pravém horním rohu každé otázky lze slabě vidět ID otázky (pro usnadnění komunikace s učitelem, například pokud student v otázce najde chybu).
 
 \begin{figure}[H]
     \centering
@@ -153,7 +153,7 @@ Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test
     \caption{Detail vyplněného testu.}
 \end{figure}
 
-Výsledná tabulka má sloupce pro jméno, e-mail, procentuální úspěšnost, získané body a ID špatně zodpovězených otázek (vizte program \ref{xslxgen}). Řádky jsou seřazeny sestupně dle úspěšnosti.
+Výsledná tabulka má sloupce pro jméno, e-mail, procentuální úspěšnost, získané body a ID špatně zodpovězených otázek (viz program \ref{xslxgen}). Řádky jsou seřazeny sestupně dle úspěšnosti.
 
 \subsection{Gramatika}
 
@@ -186,7 +186,7 @@ Pokud nejsou všechna pole vyplněna správně, nelze otázku uložit. Stále je
 
 \section{O programu}
 
-Na hlavní stránce se na spodní straně obrazovky nachází odkaz na informace \M{O~programu}. Nachází se zde stručný popis toho, o čem program je, kde lze nalézt zdroj programu a kdo je aktuální správce programu (nastavitelné v konfiguraci, vizte \ref{sec:config}).
+Na hlavní stránce se na spodní straně obrazovky nachází odkaz na informace \M{O~programu}. Nachází se zde stručný popis toho, o čem program je, kde lze nalézt zdroj programu a kdo je aktuální správce programu (nastavitelné v konfiguraci, viz \ref{sec:config}).
 
 \begin{figure}[H]
     \centering
