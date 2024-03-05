@@ -38,6 +38,22 @@
 \pretolerance=150
 \setlength{\emergencystretch}{3em}
 
+\usepackage{setspace}
+
+% Adjust line spacing for \lstlistoflistings
+\makeatletter
+\renewcommand\lstlistoflistings{%
+    \chapter*{\lstlistlistingname}%
+    \addcontentsline{toc}{chapter}{\lstlistlistingname}%
+    \begingroup%
+    \let\l@listing\l@figure% <-- use figure settings
+    \let\@cftbsnum \c@figure%
+    \def\@cftasnum{\figurename\space}%
+    \@starttoc{lol}%
+    \endgroup%
+}
+\makeatother
+
 \usepackage{chngcntr}
 \counterwithout{footnote}{chapter}
 
@@ -119,6 +135,10 @@
 
 	% \pagenumbering{gobble}
 	\newpage
+
+	% magic overfull hbox fix 
+	\setcounter{biburllcpenalty}{9000}
+	\setcounter{biburlucpenalty}{9000}
 	\printbibliography[title=Literatura]
 	\nocite{*}
 	\addcontentsline{toc}{chapter}{Literatura}
@@ -127,7 +147,6 @@
 	
 	\lstlistoflistings
 	\addcontentsline{toc}{chapter}{Seznam programů}{\linespread{1}\selectfont}
-	
 	
 	\listoffigures
 	\addcontentsline{toc}{chapter}{Seznam obrázků}{\linespread{1}\selectfont}

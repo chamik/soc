@@ -145,6 +145,8 @@ Po zmáčknutí tlačítka \M{Spustit} se test spustí, což je reflektováno ve
     \caption{Detail spuštěného testu.}
 \end{figure}
 
+% TODO: add picture and annotation of what happens with incorrect settings
+
 Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test znovu spustit tlačítkem \M{Restartovat} (toto je například potřeba, pokud během rozřazovacích testů někdo chyběl, což je poměrně pravděpodobné), \M{Smazat výsl}{edky} (tato možnost test dostane zpět do stavu \M{VYPNUTÝ} a je nevratná) a nebo si stáhnout výsledky ve formátu \M{.xlsx} (Excel tabulka).
 
 \begin{figure}[H]
@@ -152,6 +154,8 @@ Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test
     \includegraphics[width=400px]{images/01design/test-filled.png}
     \caption{Detail vyplněného testu.}
 \end{figure}
+
+% TODO: add picture and annotation of what happens when deleting data
 
 Výsledná tabulka má sloupce pro jméno, e-mail, procentuální úspěšnost, získané body a ID špatně zodpovězených otázek (viz program \ref{xslxgen}). Řádky jsou seřazeny sestupně dle úspěšnosti.
 
@@ -184,10 +188,14 @@ Program automaticky kontroluje správnost zadaných údajů -- zdali se nějaká
 
 Pokud nejsou všechna pole vyplněna správně, nelze otázku uložit. Stále je však možné otázku smazat kliknutím na ikonku odpadkového koše v pravém horním rohu modálního okna.
 
+% TODO: new backup section
+\subsection{Zálohy}
+
 \section{O programu}
 
 Na hlavní stránce se na spodní straně obrazovky nachází odkaz na informace \M{O~programu}. Nachází se zde stručný popis toho, o čem program je, kde lze nalézt zdroj programu a kdo je aktuální správce programu (nastavitelné v konfiguraci, viz \ref{sec:config}).
 
+% TODO: new screenshot
 \begin{figure}[H]
     \centering
     \includegraphics[width=400px]{images/01design/about.png}
