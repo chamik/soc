@@ -65,14 +65,6 @@ Jakmile žák test odevzdá, je přesměrován zpět na hlavní stránku, kde mu
     \caption{Hlavní stránka s výsledky po odevzdání testu.}
 \end{figure}
 
-V případě, že žák na testování chyběl a stránku si zobrazí poté, co je test učitelem ukončen, zobrazí se mu tato informační stránka.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=350px]{images/01design/pending.png}
-    \caption{Hlavní stránka s informací o pozastavení testu.}
-\end{figure}
-
 \section{Žákovské rozhraní}
 
 Žákovské rozhraní slouží k vyplňování vygenerovaných testů. Pro každý ročník je předem nastavený čas a počet otázek různých obtížností (viz \ref{adminapi}). Z banky otázek je podle těchto kritérií několik náhodně vybráno a zobrazeno. Otázky mohou být různého druhu, ale u každé otázky je vždy na výběr ze čtyř možností, z nichž právě jedna je správná. V pravém horním rohu každé otázky lze slabě vidět ID otázky (pro usnadnění komunikace s učitelem, například pokud student v otázce najde chybu).
@@ -84,6 +76,14 @@ V případě, že žák na testování chyběl a stránku si zobrazí poté, co 
     \label{purplerect}
 \end{figure}
 
+V pravém dolním rohu (na mobilních zařízeních na spodní straně) obrazovky se nachází informační box se zbývajícím časem, počtem zodpovězených otázek a celkovým počtem otázek.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=200px]{images/01design/infobox.png}
+    \caption{Informační box při vyplňování testu.}
+\end{figure}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=400px]{images/01design/submit.png}
@@ -91,6 +91,14 @@ V případě, že žák na testování chyběl a stránku si zobrazí poté, co 
 \end{figure}
 
 Po vyplnění testu může žák test odevzdat stisknutím tlačítka. Pokud tak neučiní do konce časového limitu, test se odevzdá sám. Po odevzdání testu je uživatel přesměrován zpět na hlavní stránku.
+
+Celé žákovské rozhraní je uzpůsobené i pro mobilní zařízení.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=200px]{images/01design/test-mobile.png}
+    \caption{Žákovské rozhraní na mobilním zařízení.}
+\end{figure}
 
 \section{Učitelské rozhraní}
 \label{sec:admin}
@@ -105,7 +113,13 @@ Učitelské rozhraní je poměrně komplikované, proto je rozděleno do několi
 
 Na jeho levé straně můžeme přepínat do různých částí programu; aktuálně vybranou část značí fialový obrys. Na pravé straně lze vidět uživatelské jméno a možnost odhlásit se.
 
-Po přechodu do administrátorské sekce se učitel dostane do záložky \enquote{Přehled}, kde je prozatím vidět pouze aktuální počet spuštěných testů.
+Po přechodu do administrátorské sekce se učitel dostane do záložky \enquote{Přehled}, kde je vidět počet otázek v databance, aktuálně testovaných žáků a spuštěných testů. Níže se nachází jmenný seznam aktuálně testovaných.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=400px]{images/01design/admin-index.png}
+    \caption{Sekce Přehled.}
+\end{figure}
 
 \subsection{Testy}
 
@@ -145,9 +159,15 @@ Po zmáčknutí tlačítka \M{Spustit} se test spustí, což je reflektováno ve
     \caption{Detail spuštěného testu.}
 \end{figure}
 
-% TODO: add picture and annotation of what happens with incorrect settings
+Pokud jsou zadaná data testu nesprávná (například při zadání většího počtu otázek určité kategorie, než jich je v databance), zobrazí se učiteli informační okno.
 
-Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test znovu spustit tlačítkem \M{Restartovat} (toto je například potřeba, pokud během rozřazovacích testů někdo chyběl, což je poměrně pravděpodobné), \M{Smazat výsl}{edky} (tato možnost test dostane zpět do stavu \M{VYPNUTÝ} a je nevratná) a nebo si stáhnout výsledky ve formátu \M{.xlsx} (Excel tabulka).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=400px]{images/01design/unable-to-run-test.png}
+    \caption{Informační okno při nepodařeném spuštění testu.}
+\end{figure}
+
+Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test znovu spustit tlačítkem \M{Spustit} (toto je například potřeba, pokud během rozřazovacích testů někdo chyběl, což je poměrně pravděpodobné), \M{Smazat} výsledky (tato možnost test dostane zpět do stavu \M{VYPNUTÝ} a je nevratná) a nebo si stáhnout výsledky ve formátu \M{.xlsx} (Excel tabulka).
 
 \begin{figure}[H]
     \centering
@@ -155,10 +175,23 @@ Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test
     \caption{Detail vyplněného testu.}
 \end{figure}
 
-% TODO: add picture and annotation of what happens when deleting data
+Při smazání výsledků testu je učitel důrazně varován, že je tato akce nevratná a že je potřeba stáhnout excel tabulku.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=400px]{images/01design/test-deletion.png}
+    \caption{Varování při smazání výsledků testu.}
+\end{figure}
 
 Výsledná tabulka má sloupce pro jméno, e-mail, procentuální úspěšnost, získané body a ID špatně zodpovězených otázek (viz program \ref{xslxgen}). Řádky jsou seřazeny sestupně dle úspěšnosti.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=400px]{images/01design/excel.png}
+    \caption{Ukázka tabulky s výsledky.}
+\end{figure}
+
+\pagebreak
 \subsection{Gramatika}
 
 Sekce Gramatika slouží k upravování gramatických otázek. Skládá se ze seznamu uložených otázek v databázi. V rychlém náhledu můžeme vidět text otázky, správnou odpověď, jazykovou úroveň a ID. V horním pravém rohu této sekce se nachází tlačítko pro vytvoření nové otázky. Stejné tlačítko se nachází i na konci seznamu.
@@ -178,7 +211,7 @@ Po kliknutí na otázku se otevře modální okno s nastavením dané otázky. P
     \label{questionfill}
 \end{figure}
 
-Program automaticky kontroluje správnost zadaných údajů -- zdali se nějaká ze špatných odpovědí neshoduje se správnou a zdali jsou všechna políčka vyplněná. Výchozí hodnota jazykové obtížnosti je A1.
+Program automaticky kontroluje správnost zadaných údajů; zdali se nějaká ze špatných odpovědí neshoduje se správnou a zdali jsou všechna políčka vyplněná. Výchozí hodnota jazykové obtížnosti je A1.
 
 \begin{figure}[H]
     \centering
@@ -188,14 +221,32 @@ Program automaticky kontroluje správnost zadaných údajů -- zdali se nějaká
 
 Pokud nejsou všechna pole vyplněna správně, nelze otázku uložit. Stále je však možné otázku smazat kliknutím na ikonku odpadkového koše v pravém horním rohu modálního okna.
 
-% TODO: new backup section
+\pagebreak
 \subsection{Zálohy}
 
+Tato sekce slouží ke správě záloh databanky otázek a nastavení testů. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=400px]{images/01design/backup.png}
+    \caption{Sekce Zálohy.}
+\end{figure}
+
+Zde je možné stáhnout a nahrát soubor zálohy, který obsahuje všechny gramatické otázky a nastavení testů. Nahrání zálohy nenávratně nahradí nastavení v databázi, tudíž je učitel před přepsáním varován.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=400px]{images/01design/backup-warning.png}
+    \caption{Varování při nahrávání zálohy.}
+\end{figure}
+
+Tato stránka také obsahuje krátký informační text ohledně rozsahu záloh a dobrých praktik zálohování dat.
+
+\pagebreak
 \section{O programu}
 
-Na hlavní stránce se na spodní straně obrazovky nachází odkaz na informace \M{O~programu}. Nachází se zde stručný popis toho, o čem program je, kde lze nalézt zdroj programu a kdo je aktuální správce programu (nastavitelné v konfiguraci, viz \ref{sec:config}).
+Na hlavní stránce se na spodní straně obrazovky nachází odkaz na informace \M{O~programu}. Nachází se zde stručný popis toho, o čem program je, kde lze nalézt zdroj programu a kdo je jeho aktuální správce (nastavitelné v konfiguraci, viz \ref{sec:config}).
 
-% TODO: new screenshot
 \begin{figure}[H]
     \centering
     \includegraphics[width=400px]{images/01design/about.png}

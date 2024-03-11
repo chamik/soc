@@ -1,0 +1,185 @@
+diff --git a/01design.tex b/01design.tex
+index 0ccf6a1..f160833 100644
+--- a/01design.tex
++++ b/01design.tex
+@@ -65,14 +65,6 @@ Jakmile žák test odevzdá, je přesměrován zpět na hlavní stránku, kde mu
+     \caption{Hlavní stránka s výsledky po odevzdání testu.}
+ \end{figure}
+ 
+-V případě, že žák na testování chyběl a stránku si zobrazí poté, co je test učitelem ukončen, zobrazí se mu tato informační stránka.
+-
+-\begin{figure}[H]
+-    \centering
+-    \includegraphics[width=350px]{images/01design/pending.png}
+-    \caption{Hlavní stránka s informací o pozastavení testu.}
+-\end{figure}
+-
+ \section{Žákovské rozhraní}
+ 
+ Žákovské rozhraní slouží k vyplňování vygenerovaných testů. Pro každý ročník je předem nastavený čas a počet otázek různých obtížností (viz \ref{adminapi}). Z banky otázek je podle těchto kritérií několik náhodně vybráno a zobrazeno. Otázky mohou být různého druhu, ale u každé otázky je vždy na výběr ze čtyř možností, z nichž právě jedna je správná. V pravém horním rohu každé otázky lze slabě vidět ID otázky (pro usnadnění komunikace s učitelem, například pokud student v otázce najde chybu).
+@@ -84,6 +76,14 @@ V případě, že žák na testování chyběl a stránku si zobrazí poté, co
+     \label{purplerect}
+ \end{figure}
+ 
++V pravém dolním rohu (na mobilních zařízeních na spodní straně) obrazovky se nachází informační box se zbývajícím časem, počtem zodpovězených otázek a celkovým počtem otázek.
++
++\begin{figure}[H]
++    \centering
++    \includegraphics[width=200px]{images/01design/infobox.png}
++    \caption{Informační box při vyplňování testu.}
++\end{figure}
++
+ \begin{figure}[H]
+     \centering
+     \includegraphics[width=400px]{images/01design/submit.png}
+@@ -92,6 +92,14 @@ V případě, že žák na testování chyběl a stránku si zobrazí poté, co
+ 
+ Po vyplnění testu může žák test odevzdat stisknutím tlačítka. Pokud tak neučiní do konce časového limitu, test se odevzdá sám. Po odevzdání testu je uživatel přesměrován zpět na hlavní stránku.
+ 
++Celé žákovské rozhraní je uzpůsobené i pro mobilní zařízení.
++
++\begin{figure}[H]
++    \centering
++    \includegraphics[width=200px]{images/01design/test-mobile.png}
++    \caption{Žákovské rozhraní na mobilním zařízení.}
++\end{figure}
++
+ \section{Učitelské rozhraní}
+ \label{sec:admin}
+ 
+@@ -145,9 +153,15 @@ Po zmáčknutí tlačítka \M{Spustit} se test spustí, což je reflektováno ve
+     \caption{Detail spuštěného testu.}
+ \end{figure}
+ 
+-% TODO: add picture and annotation of what happens with incorrect settings
++Pokud jsou zadaná data testu nesprávná (například při zadání většího počtu otázek určité kategorie, než jich je v databance), zobrazí se učiteli informační okno.
+ 
+-Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test znovu spustit tlačítkem \M{Restartovat} (toto je například potřeba, pokud během rozřazovacích testů někdo chyběl, což je poměrně pravděpodobné), \M{Smazat výsl}{edky} (tato možnost test dostane zpět do stavu \M{VYPNUTÝ} a je nevratná) a nebo si stáhnout výsledky ve formátu \M{.xlsx} (Excel tabulka).
++\begin{figure}[H]
++    \centering
++    \includegraphics[width=400px]{images/01design/unable-to-run-test.png}
++    \caption{Informační okno při nepodařeném spuštění testu.}
++\end{figure}
++
++Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test znovu spustit tlačítkem \M{Spustit} (toto je například potřeba, pokud během rozřazovacích testů někdo chyběl, což je poměrně pravděpodobné), \M{Smazat} (tato možnost test dostane zpět do stavu \M{VYPNUTÝ} a je nevratná) a nebo si stáhnout výsledky ve formátu \M{.xlsx} (Excel tabulka).
+ 
+ \begin{figure}[H]
+     \centering
+@@ -155,7 +169,13 @@ Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test
+     \caption{Detail vyplněného testu.}
+ \end{figure}
+ 
+-% TODO: add picture and annotation of what happens when deleting data
++Při smazání výsledků testu je učitel důrazně varován, že je tato akce nevratná a že je potřeba stáhnout excel tabulku.
++
++\begin{figure}[H]
++    \centering
++    \includegraphics[width=400px]{images/01design/test-deletion.png}
++    \caption{Varování při smazání výsledků testu.}
++\end{figure}
+ 
+ Výsledná tabulka má sloupce pro jméno, e-mail, procentuální úspěšnost, získané body a ID špatně zodpovězených otázek (viz program \ref{xslxgen}). Řádky jsou seřazeny sestupně dle úspěšnosti.
+ 
+@@ -188,14 +208,32 @@ Program automaticky kontroluje správnost zadaných údajů -- zdali se nějaká
+ 
+ Pokud nejsou všechna pole vyplněna správně, nelze otázku uložit. Stále je však možné otázku smazat kliknutím na ikonku odpadkového koše v pravém horním rohu modálního okna.
+ 
+-% TODO: new backup section
+ \subsection{Zálohy}
+ 
++Tato sekce slouží ke správě záloh databanky otázek a nastavení testů. 
++
++\begin{figure}[H]
++    \centering
++    \includegraphics[width=400px]{images/01design/backup.png}
++    \caption{Sekce Zálohy.}
++\end{figure}
++
++Zde je možné stáhnout a nahrát soubor zálohy, který obsahuje všechny gramatické otázky a nastavení testů.
++
++Nahrání zálohy nenávratně nahradí nastavení v databázi, tudíž je učitel před přespáním varován.
++
++\begin{figure}[H]
++    \centering
++    \includegraphics[width=400px]{images/01design/backup-warning.png}
++    \caption{Varování při nahrávání zálohy.}
++\end{figure}
++
++Tato stránka také obsahuje krátký informační text ohledně rozsahu záloh a dobrých praktik zálohování dat.
++
+ \section{O programu}
+ 
+ Na hlavní stránce se na spodní straně obrazovky nachází odkaz na informace \M{O~programu}. Nachází se zde stručný popis toho, o čem program je, kde lze nalézt zdroj programu a kdo je aktuální správce programu (nastavitelné v konfiguraci, viz \ref{sec:config}).
+ 
+-% TODO: new screenshot
+ \begin{figure}[H]
+     \centering
+     \includegraphics[width=400px]{images/01design/about.png}
+diff --git a/02technologie.tex b/02technologie.tex
+index fce647d..0817460 100644
+--- a/02technologie.tex
++++ b/02technologie.tex
+@@ -279,7 +279,9 @@ Učitelské API se nachází v \M{/src/server/trpc/router/admin.ts}. Definuje n
+     \item toggleTest -- označí test jako \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ}, podle jeho aktuálního stavu;
+     \item restartTest -- ze stavu \M{VYPLNĚNÝ} nevratně smaže data o vyplnění a vrátí ho do stavu \M{VYPNUTÝ};
+     \item areTestRunning -- vrátí pravdivostní hodnotu, pokud je alespoň jeden test ve stavu \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ};
+-    \item downloadResults -- vygeneruje excel tabulku, do které přidá data výsledků daného testu, a vrátí ji převedenou do formátu Base64.
++    \item downloadResults -- vygeneruje excel tabulku, do které přidá data výsledků daného testu, a vrátí ji převedenou do formátu Base64;
++    \item downloadBackup -- vygeneruje json soubor se zálohou databanky otázek a nastavení testů;
++    \item uploadBackup -- přijímá json soubor, kterým přepíše databanku otázek a nastavení testů.
+ \end{compactitem}
+ 
+ Následuje kód pro endpoint \M{downloadResults}.
+diff --git a/03nasazeni.tex b/03nasazeni.tex
+index 005d93f..56cfa35 100644
+--- a/03nasazeni.tex
++++ b/03nasazeni.tex
+@@ -35,11 +35,9 @@ chamik.eu.		        300	    IN	A	    5.75.170.217
+ 
+ Testování programu probíhalo průběžně během vývoje. Nejdůležitější bylo prvotní testování a komunikace s učiteli angličtiny. Pokud by program nevyhovoval jejich požadavkům, postrádal by význam a užitečnost.
+ 
+-Po zprovoznění základních funkcionalit proběhlo několik větších testů s menší třídou žáků a přítomným učitelem. Tyto testy sloužily především k doladění detailů a chyb.
++Po zprovoznění základních funkcionalit proběhlo několik větších testů s menší třídou žáků a přítomným učitelem. Tyto testy sloužily především k doladění detailů a chyb. Proběhl i test s finální verzí aplikace.
+ 
+ Podle výsledků testování je program připravený na plné nasazení.
+ 
+-% TODO: testování o angličtinu?
+-% TODO: konzultace s učitelem AJ?
+ % TODO: new section about form scraping script
+ \section{Získání otázek starých testů}
+\ No newline at end of file
+diff --git a/99zaver.tex b/99zaver.tex
+index 18d7a05..562089c 100644
+--- a/99zaver.tex
++++ b/99zaver.tex
+@@ -3,8 +3,7 @@
+ 
+ Opravdový provoz aplikaci čeká až na začátku příštího školního roku, ovšem podle testování a průběžného používání práce splnila svůj cíl -- vyvinula se v intuitivní, příjemně vypadající aplikaci, která automaticky testuje a vyhodnocuje jazykové rozřazovací testy. 
+ 
+-% TODO: it will surely by perfect by then :)
+-Aplikace má i své nedostatky; z původně plánovaných funkcionalit chybí mimo jiné například správa zálohování dat, nebo zobrazení zbývajícího času v žákovském rozhraní. Toto téma si mimo Středoškolské odborné činnosti beru i jako maturitní práci z programování, tudíž je stále na čem pracovat. I přes to všechno věřím, že je dostatečně vyvinutá na to, aby se dala běžně používat a nebyla pouhou přítěží. Při troše štěstí bude \textit{Rozřazovák} ještě dlouhá léta dobře sloužit, než také podlehne digitálnímu stáří.
++Toto téma si mimo Středoškolské odborné činnosti beru i jako maturitní práci z programování, tudíž je stále na čem pracovat. I přes to věřím, že je dostatečně vyvinutá na to, aby se dala běžně používat a nebyla pouhou přítěží. Při troše štěstí bude \textit{Rozřazovák} ještě dlouhá léta dobře sloužit, než také podlehne digitálnímu stáří.
+ 
+ Zdroj k programu a krátký návod k jeho spuštění lze nalézt na těchto odkazech:
+ 
+diff --git a/images/01design/about.png b/images/01design/about.png
+index cedb57e..5a61017 100644
+Binary files a/images/01design/about.png and b/images/01design/about.png differ
+diff --git a/images/01design/grammar.png b/images/01design/grammar.png
+index bc50482..e508203 100644
+Binary files a/images/01design/grammar.png and b/images/01design/grammar.png differ
+diff --git a/images/01design/navbar.png b/images/01design/navbar.png
+index 4feb6e3..7fc0b22 100644
+Binary files a/images/01design/navbar.png and b/images/01design/navbar.png differ
+diff --git a/images/01design/otazky.png b/images/01design/otazky.png
+index ff230df..4e3b6d3 100644
+Binary files a/images/01design/otazky.png and b/images/01design/otazky.png differ
+diff --git a/images/01design/submit.png b/images/01design/submit.png
+index 8a0b88e..240237a 100644
+Binary files a/images/01design/submit.png and b/images/01design/submit.png differ
+diff --git a/images/01design/test-filled.png b/images/01design/test-filled.png
+index 1e48132..31138fe 100644
+Binary files a/images/01design/test-filled.png and b/images/01design/test-filled.png differ
+diff --git a/images/01design/tests.png b/images/01design/tests.png
+index 4341dab..8af44f2 100644
+Binary files a/images/01design/tests.png and b/images/01design/tests.png differ

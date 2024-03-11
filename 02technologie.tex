@@ -18,8 +18,6 @@ Jedno z prvních rozhodnutí, které musí člověk při tvorbě projektu uděla
 
 Framework je jakási nadstavba nad programovacím jazykem a má proces vytváření webových aplikací usnadnit. Při tvorbě webové aplikace funguje jako páteř, na které stojí vše ostatní. \M{T3 Stack} přichází s frameworkem \M{Next.js}, který je sám o~sobě nadstavbou nad populárním frameworkem \M{React}. Nabízí mnoho funkcí, jmenovitě například možnost výběru stylu renderování stránky, automatické optimalizace a~různé další funkcionality.\cite{nextjs}
 
-% TODO: TRPC??
-
 Databáze je další klíčovou součástí jakékoli větší aplikace. Pro tento projekt jsem zvolil \M{PostgreSQL}; jedná se o jeden z nejvšestranějších volně dostupných databázových systémů.
 
 \M{T3 Stack} přichází s knihovnou \M{Prisma}, která komunikaci s databází usnadňuje například tím, že pro TypeScript generuje typy podle definovaného schématu.
@@ -47,7 +45,7 @@ Protože je v programu použito hodně nástrojů, je potřeba mnoha konfigurač
 
 Konfigurace samotného programu je uložena v souboru \M{.env}. Tento soubor není v~repozitáři přítomen, protože obsahuje citlivé informace (přístupové údaje k databázi aj.); místo toho je přítomen soubor \M{.env-example}, kde jsou všechny nastavitelné hodnoty popsány a nevyplněny. Níže následuje úryvek z tohoto souboru.
 
-\begin{lstlisting}[language=Python,caption={Úryvek ukázky konfiguračního souboru programu}]
+\begin{lstlisting}[language=Python,caption={Úryvek \M{/.env}; ukázka konfiguračního souboru programu.}]
 # VARIABLE INFO
 NEXT_PUBLIC_SUBTITLE="Rozrazovaci testy pro [jmeno skoly]"
 NEXT_PUBLIC_REPOSITORY="https://github.com/chamik/rozrazovak"
@@ -78,7 +76,7 @@ Schéma databáze je definované pomocí souboru \M{prisma/schema.prisma}. Obsah
 
 Výhodou tohoto přístupu je, že \M{Prisma} dokáže převádět tento obecný zápis a dotazy na specifické verze SQL podle použité databáze. \cite{prisma} Níže následuje úryvek schématu.
 
-\begin{lstlisting}[language=Prisma, caption={Úryvek schématu databáze}]
+\begin{lstlisting}[language=Prisma, caption={Úryvek \M{/prisma/scheme.prisma}; schéma databáze.}]
 model Question {
     id            Int          @id @default(autoincrement())
     languageLevel Int          @default(0)
@@ -91,10 +89,24 @@ model Question {
     answers Answer[]
 }
 
-enum QuestionType {
-    GRAMMAR
-    READING
-    LISTENING
+model TestSession {
+  id        Int               @id @default(autoincrement())
+  startTime DateTime
+  endTime   DateTime
+  status    TestSessionStatus @default(ACTIVE)
+
+  testId Int
+  Test   Test @relation(fields: [testId], references: [id])
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  grammarQuestionsIds Int[]
+  Answer              Answer[]
+
+  correctAnswers Int[] @default([])
+  wrongAnswers   Int[] @default([])
+  successRate    Float
 }
 \end{lstlisting}
 
@@ -116,7 +128,7 @@ Specifická implementace se nachází v \M{src/pages/api/auth/[...nextauth].ts}.
 
 Pokud ne, program se ujistí, že je e-mail součástí školní domény. Díky konvenci GJP-ME dávat do emailových adres žáků rok jejich nastoupení je program schopen vypočítat jejich aktuální ročník (viz níže).
 
-\begin{lstlisting}[language=JavaScript,caption={Zjištění aktuálního ročníku uživatele}]
+\begin{lstlisting}[language=JavaScript,caption={Úryvek \M{/src/pages/api/auth/[...nextauth].ts}; zjištění aktuálního ročníku uživatele.}]
 function parseUserLevel(email: string) {
     const emailId = email.split('@')[0];
     
@@ -166,7 +178,7 @@ Přestože se celý program zapisuje do jedné souborové struktury, běží ně
 
 API je rozdělené do dvou hlavních částí s různými pravomocemi -- uživatelské a učitelské. Uživatelské je dostupné všem přihlášeným uživatelům. Učitelské je dostupné pouze oprávněným uživatelům -- server si zkontroluje, pokud je u uživatele v databázi vyplněná kolonka \M{isTeacher}. Tento kód se nachází v \M{/src/server/trpc/trpc.ts} a jeho ukázka je níže.
 
-\begin{lstlisting}[language=JavaScript,caption={Kontrola přístupu do učitelského rozhraní}]
+\begin{lstlisting}[language=JavaScript,caption={Úryvek \M{/src/server/trpc/trpc.ts}; kontrola přístupu do učitelského rozhraní.}]
 const isTeacher = t.middleware(async ({ ctx, next }) => {
     if (!ctx.session || !ctx.session.user) {
         throw new TRPCError({ code: "UNAUTHORIZED" });
@@ -194,11 +206,10 @@ export const teacherProcedure = t.procedure.use(isTeacher);
 
 Uživatelské API se nachází v \M{/src/server/trpc/router/user.ts}. Definuje následující endpointy\footnote{API endpoint je specifický koncový bod nebo URL v rámci API, který představuje konkrétní operaci nebo zdroj poskytovaný daným rozhraním. V tomto případě každý endpoint reprezentuje jednu funkci na serveru.}:
 
-% TODO: tečky na konci řádků?
 \begin{compactitem}
     \item getUserData -- vrátí informace o přihlášeném uživateli, aktuálním spuštěném testu a případně o vyplněném testu;
-    \item beginTest -- vygeneruje test pro daného uživatele, uloží do databáze ID použitých otázek a čas ukončení testu ;
-    \item getTestData -- navrátí náhodně zamíchaná vygenerovaná data testu, označí test za aktivní;
+    \item beginTest -- vygeneruje test pro daného uživatele, uloží do databáze ID použitých otázek a čas začátku i konce testu;
+    \item getTestData -- navrátí náhodně zamíchaná vygenerovaná data testu;
     \item submitAnswer -- přijímá odpověď na otázku, kterou uloží do databáze;
     \item submitTest -- potvrdí odevzdání testu, zablokuje další odevzdávání otázek, zároveň test vyhodnotí a výsledky uloží do databáze.
 \end{compactitem}
@@ -206,7 +217,7 @@ Uživatelské API se nachází v \M{/src/server/trpc/router/user.ts}. Definuje n
 Následuje ukázka endpointu \M{getTestData}.
 
 \newpage
-\begin{lstlisting}[language=JavaScript,caption={Endpoint getTestData}]
+\begin{lstlisting}[language=JavaScript,caption={Úryvek \M{/src/server/trpc/router/user.ts}; endpoint getTestData.}]
 getTestData: protectedProcedure.query(async ({ ctx }) => {
     const user = await prisma.user.findFirst({ 
         where: { email: ctx.session.user.email },
@@ -279,78 +290,106 @@ Učitelské API se nachází v \M{/src/server/trpc/router/admin.ts}. Definuje n�
     \item toggleTest -- označí test jako \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ}, podle jeho aktuálního stavu;
     \item restartTest -- ze stavu \M{VYPLNĚNÝ} nevratně smaže data o vyplnění a vrátí ho do stavu \M{VYPNUTÝ};
     \item areTestRunning -- vrátí pravdivostní hodnotu, pokud je alespoň jeden test ve stavu \M{AKTIVNÍ}, nebo \M{VYPLNĚNÝ};
-    \item downloadResults -- vygeneruje excel tabulku, do které přidá data výsledků daného testu, a vrátí ji převedenou do formátu Base64.
+    \item downloadResults -- vygeneruje excel tabulku, do které přidá data výsledků daného testu, a vrátí ji převedenou do formátu Base64;
+    \item downloadBackup -- vygeneruje json soubor se zálohou databanky otázek a nastavení testů a vrátí ho převedený do formátu Base64;
+    \item uploadBackup -- přijímá json soubor, kterým přepíše databanku otázek a nastavení testů.
 \end{compactitem}
 
-Následuje kód pro endpoint \M{downloadResults}.
+Následuje kód pro endpointy \M{toggleTest} a \M{downloadBackup}.
 
-\begin{lstlisting}[language=JavaScript,caption={Endpoint downloadResults}]
-downloadResults: teacherProcedure.input(z.object({testId: z.number()})).mutation(async ({ input }) => {
+\pagebreak
+\begin{lstlisting}[language=JavaScript,caption={Úryvek \M{/src/server/trpc/router/admin.ts}; endpoint toggleTest a~funkce questionAmounts.}]
+const questionAmounts = async () => {
+  const questions = await prisma.question.findMany();
+
+  return [
+    questions.filter(x => x.languageLevel == 0).length,
+    questions.filter(x => x.languageLevel == 1).length,
+    questions.filter(x => x.languageLevel == 2).length,
+    questions.filter(x => x.languageLevel == 3).length,
+    questions.filter(x => x.languageLevel == 4).length,
+    questions.filter(x => x.languageLevel == 5).length,
+  ];
+}
+
+toggleTest: teacherProcedure.input(z.object({testId: z.number()})).mutation(async ({ input }) => {
     const test = await prisma.test.findFirst({ where: { id: input.testId }});
     if (!test) return;
-    
-    if (test.status != TestStatus.PENDING) return;
 
-    const results = await prisma.testSession.findMany({
-      where: {
-        testId: input.testId,
-      }, 
-      orderBy: {
-        successRate: "desc",
-      }
-    });
+    if (test.status == TestStatus.ACTIVE) {
+        await prisma.test.update({
+            where: { id: input.testId },
+            data: { status: TestStatus.PENDING, }
+        });
+    } 
+    else {
+        const avail = await questionAmounts();
 
-    if (!results) return;
+        let isValid = true;
+        isValid &&= test.grammarA1Amount <= avail[0]!;
+        isValid &&= test.grammarA2Amount <= avail[1]!;
+        isValid &&= test.grammarB1Amount <= avail[2]!;
+        isValid &&= test.grammarB2Amount <= avail[3]!;
+        isValid &&= test.grammarC1Amount <= avail[4]!;
+        isValid &&= test.grammarC2Amount <= avail[5]!;
 
-    const users = await prisma.user.findMany({
-      where: {
-        id: {
-          in: results.map(x => x.userId),
-        }, 
-      },
-    })
+        if (!isValid)
+            return TRPC_ERROR_CODES_BY_KEY.BAD_REQUEST;
 
-    const workbook = new Workbook();
-    const worksheet = workbook.addWorksheet('Vysledky testu')
-
-    worksheet.columns = [
-      { header: "Jmeno", key: "name", width: 25 },
-      { header: "E-mail", key: "email", width: 30 },
-      { header: "Body gr.", key: "points_gr", width: 10},
-      { header: "Uspesnost gr.", key: "success_gr", width: 15 },
-      { header: "ID spatnych odpovedi gr.", key: "wrong_ids_gr", width: 40 },
-    ];
-
-    const usrs = users.reduce((acc, user) => {
-      acc[user.id] = user;
-      return acc;
-    }, {} as { [key: string]: typeof users[0] });
-
-    results.forEach(s => {
-      worksheet.addRow({
-        name: usrs[s.userId]?.name ?? "Bezejmenny",
-        email: usrs[s.userId]?.email ?? "???",
-        points_gr: s.correctAnswers.length,
-        success_gr: (s.successRate * 100).toFixed(1) + "%",
-        wrong_ids_gr: s.wrongAnswers.join(" "),
-      });
-    });
-
-    const bf = await workbook.xlsx.writeBuffer();
-    const st = Buffer.from(bf).toString("base64");
-
-    return st;
+        await prisma.test.update({
+            where: { id: input.testId },
+            data: { status: TestStatus.ACTIVE, }
+        });
+    } 
 }),
 \end{lstlisting}
 
 \newpage
+
+
+\begin{lstlisting}[language=JavaScript,caption={Úryvek \M{/src/server/trpc/router/admin.ts}; endpoint downloadBackup.}, label=downloadBackup]
+downloadBackup: teacherProcedure.mutation(async () => {
+    const questions = await prisma.question.findMany({
+        select: {
+            questionText: true,
+            rightAnswer: true,
+            wrongAnswers: true,
+            languageLevel: true,
+        }
+    });
+
+    const tests = await prisma.test.findMany({
+        select: {
+            grammarA1Amount: true,
+            grammarA2Amount: true,
+            grammarB1Amount: true,
+            grammarB2Amount: true,
+            grammarC1Amount: true,
+            grammarC2Amount: true,
+            timeLimit: true,
+            class: true,
+        }
+    })
+
+    const backup: BackupData = {
+        questions,
+        tests,
+    };
+
+    const st = Buffer.from(JSON.stringify(backup)).toString("base64");
+    return st;
+}),
+\end{lstlisting}
+
+\pagebreak
+
 \section{Komponenty a stránky}
 
 Většinu programu tvoří komponenty a stránky knihovny \M{React}. Jedná se vlastně o~TypeScript soubor doplněný o prvky HTML, které se zobrazují v prohlížeči. Komponenty se nacházejí v \M{/src/components/}, stránky v \M{/src/pages/}. Níže následuje několik různých ukázek komponent a stránek použitých v aplikaci. 
 
 Zobrazení stavu testu podle aktuální hodnoty. V argumentech \M{className} HTML tagů lze vidět třídy \M{TailwindCSS}.
 
-\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/pages/admin/tests/index.tsx}; Status testu}]
+\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/pages/admin/tests/index.tsx}; status testu.}]
 type TestBadgeProps = {
     status: TestStatus,
 }
@@ -381,7 +420,7 @@ const TestBadge: React.FC<TestBadgeProps> = (props) => {
 \newpage
 Při vyplňování textu otázky (viz obrázek \ref{questionfill}) lze použít znak podtržítka \enquote{\_}, který se v textu otázky při vyplňování zobrazí jako světle fialový obdélník (viz obrázek \ref{purplerect} u druhé otázky), který uživateli naznačuje, že se na dané místo má něco doplnit. 
 
-\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/pages/test/index.tsx}; komponent textu otázky, výměna znaku \enquote{\_} za fialový obdélník}]
+\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/pages/test/index.tsx}; komponent textu otázky, výměna znaku \enquote{\_} za fialový obdélník.}]
 type QuestionTextProps = {
     questionText: string,
     id: number,
@@ -406,7 +445,7 @@ const QuestionText: React.FC<QuestionTextProps> = (props) => {
 \end{lstlisting}
 
 \newpage
-\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/pages/admin/grammar/index.tsx}; generování seznamu otázek z databáze}, label={xslxgen}]
+\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/pages/admin/grammar/index.tsx}; generování seznamu otázek z databáze.}, label={xslxgen}]
 type QuestionsListingProps = {
     questions: Question[] | undefined,
     getQuestionDataCallback: (id: number) => void,
@@ -440,3 +479,94 @@ const QuestionsListing: React.FC<QuestionsListingProps> = (props) => {
     );
 }
 \end{lstlisting}
+
+\pagebreak
+\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/src/components/admin/confirmModal.tsx}; potvrzovací modální okno.}, label={xslxgen}]
+type ConfirmModalResult = {
+    status: boolean;
+};
+
+type ConfirmModalProps = {
+    warningText: string,
+    confirmText: string,
+    cancelText: string,
+}
+
+const ConfirmModalInner: ConfirmDialog<ConfirmModalProps, ConfirmModalResult> = (props) => {
+    const { show, proceed, warningText, confirmText, cancelText } = props;
+
+    if (!show)
+        return null;
+
+    return (
+    <Modal onClose={() => proceed({status: false})}>
+        <div className="flex flex-col border-b-2 mb-10 w-full h-full bg-purple-100 rounded-3xl p-10 px-14">
+            <p className="font-bold text-lg text-center mb-2">{warningText}</p>
+
+            <button className="text-xl w-auto text-slate-700 major-button my-3" onClick={() => proceed({status: false})}>{cancelText}</button>
+            <button className="w-auto text-lg text-red-700 major-button" onClick={() => proceed({status: true})}>{confirmText}</button>
+        </div>
+    </Modal>
+    );
+};
+
+export const ConfirmModal = confirmable(ConfirmModalInner);
+export const confirm = createConfirmation(ConfirmModal);
+\end{lstlisting}
+
+\pagebreak
+\section{Získání otázek starých testů}
+
+% TODO odkaz na script co vyrábí zálohu
+Aby bylo možné \emph{Rozřazovák} používat, je potřeba mít otázky v databance. Pro tento účel byly na vývoj poskytnuty Google dotazníky s otázkami z předchozích let. Pro jejich zpracování do stejného formátu, jako má záloha (viz Program \ref{downloadBackup}), slouží následující Google Apps Script.\footnote{Google Apps Script je platforma, která umožňuje programově interagovat s aplikacemi Googlu.}
+
+\begin{lstlisting}[language=JavaScript,caption={Úryvek z \M{/scripts/parse\_forms.js}; zpracování dat Google dotazníku.}, label={xslxgen}]
+function parseForm(formId) {
+    var form = FormApp.openById(formId);
+
+    var items = form.getItems(FormApp.ItemType.MULTIPLE_CHOICE);
+    let questions = [];
+    
+    for (const item of items) {
+        let title = item.asMultipleChoiceItem().getTitle();
+        title = title.replace(/[_\.]{2,}/g, "_");
+
+        var right_answer = item.asMultipleChoiceItem().getChoices().find(x => x.isCorrectAnswer());
+
+        if (!right_answer)
+            continue;
+
+        right_answer = right_answer.getValue();
+
+        var wrong_answers = item.asMultipleChoiceItem().getChoices().filter(x => !x.isCorrectAnswer()).map(x => x.getValue());
+
+        if (wrong_answers.length != 3)
+            continue;
+
+        const question = {
+            questionText: title,
+            rightAnswer: right_answer,
+            wrongAnswers: wrong_answers,
+            languageLevel: 2,
+        }
+
+        questions.push(question);
+    }
+
+    return questions
+}
+\end{lstlisting}
+
+\section{Plausible tracking}
+
+Tracking\footnote{Tracking, česky \enquote*{sledování}, je pomůcka, která umožňuje sledování aktivity uživatelů napříč aplikací.} na webu je často velmi invazivní, proto jsem se v souladu s požadavky projektu rozhodl použít platformu Plausible, která se snaží o etický přístup a zaručuje například soulad s evropskou směrnicí GDPR.\cite{plausible}
+
+Instance, která je aktuálně použitá na produkční verzi programu \emph{Rozřazovák} je self-hosted\footnote{Plausible umožňuje bezplatné spuštění programu na vlastním serveru.}, což zaručuje další vrstvu zajištění soukromí uživatelů.
+
+Díky Plausible jsou učitelům i vývojáři zpřístupněna data mimo jiné o návštěvnosti  a délce zobrazení různých stránek.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=400px]{images/02technologie/plausible.png}
+    \caption{Snímek obrazovky platformy Plausible.}
+\end{figure}
