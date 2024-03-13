@@ -10,7 +10,7 @@ Dalšími podmínkami byly jednoduchost používání a aktuálnost různých n�
 
 \subsection{Stack}
 
-Dnes existuje nepřeberně způsobů jak vytvořit full-stack\footnote{Full-stack označuje kompletní řešení, často za použití serverové i klientské aplikace.} aplikaci a vybrat mezi nimi není jednoduché. Mimoto je tyto technologie potřeba často kombinovat; tato kombinace se nazývá stack. Stack určuje, jak aplikaci vyvíjíme a jaké prostředky nám jsou dostupné. Stack si můžeme vytvořit sami dle vlastního uvážení a potřeb, nebo využít nějaký volně dostupný, který už je ozkoušený a důvěryhodný.
+Dnes existuje nepřeberné množství způsobů jak vytvořit full-stack\footnote{Full-stack označuje kompletní řešení, často za použití serverové i klientské aplikace.} aplikaci a vybrat si mezi nimi není jednoduché. Mimoto je tyto technologie potřeba často kombinovat; tato kombinace se nazývá \emph{stack}. Stack určuje, jak aplikaci vyvíjíme a jaké prostředky nám jsou dostupné. Stack si můžeme vytvořit sami dle vlastního uvážení a potřeb, nebo využít nějaký volně dostupný, který už je ozkoušený a důvěryhodný.
 
 Mojí volbou se stal \M{T3 Stack}, který kombinuje několik populárních technologií, které jsou blíže popsány níže. Zároveň je však poměrně tvárný a lze ho jednoduše přizpůsobit potřebám projektu.\cite{t3stack}
 
@@ -41,7 +41,7 @@ Program je poměrně rozsáhlý, proto je pro přehlednost rozdělen do několik
 
 Protože je v programu použito hodně nástrojů, je potřeba mnoha konfiguračních souborů.
 
-\M{package.json} definuje použité knihovny a různé scripty\footnote{Script je typicky malý kus kódu, který nijak nezasahuje do funkčnosti aplikace, ale vypomáhá při jejím vývoji.}; tento soubor je vyžíván balíčkovacím systémem \M{NPM} při instalaci potřebných balíčků. \M{tailwind.config.cjs}, \M{prettier.config.cjs} a \M{postcss.config.cjs} nastavují funkčnost \M{Tailwind}u. \M{next.config.mjs} a \M{next-env.d.ts} konfigurují funkčnost \M{Next.js}. Soubor \M{.gitignore} definuje, jaké soubory má \M{Git} ignorovat.
+Soubor \M{package.json} definuje použité knihovny a různé scripty\footnote{Script je typicky malý kus kódu, který nijak nezasahuje do funkčnosti aplikace, ale vypomáhá při jejím vývoji.}, je využíván balíčkovacím systémem \M{NPM} při instalaci potřebných knihoven. \M{tailwind.config.cjs}, \M{prettier.config.cjs} a \M{postcss.config.cjs} nastavují funkčnost \M{Tailwind}u. \M{next.config.mjs} a \M{next-env.d.ts} konfigurují funkčnost \M{Next.js}, dále pak soubor \M{.gitignore} definuje, jaké soubory má ignorovat \M{Git}.
 
 Konfigurace samotného programu je uložena v souboru \M{.env}. Tento soubor není v~repozitáři přítomen, protože obsahuje citlivé informace (přístupové údaje k databázi aj.); místo toho je přítomen soubor \M{.env-example}, kde jsou všechny nastavitelné hodnoty popsány a nevyplněny. Níže následuje úryvek z tohoto souboru.
 
@@ -126,7 +126,7 @@ Boilerplate\footnote{Boilerplate je opakující se nebo standardní kód, který
 
 Specifická implementace se nachází v \M{src/pages/api/auth/[...nextauth].ts}. \newline Při přihlášení si program kontroluje použitou e-mailovou adresu -- nejdříve pokud se nachází v seznamu učitelů (viz \ref{sec:config}), v takovém případě uživateli přidělí roli učitele s přístupem do učitelského rozhraní (viz \ref{sec:admin}). 
 
-Pokud ne, program se ujistí, že je e-mail součástí školní domény. Díky konvenci GJP-ME dávat do emailových adres žáků rok jejich nastoupení je program schopen vypočítat jejich aktuální ročník (viz níže).
+Pokud ne, program se ujistí, že je e-mail součástí školní domény. Díky konvenci GJP-ME dávat do e-mailových adres žáků rok jejich nastoupení je program schopen vypočítat jejich aktuální ročník (viz níže).
 
 \begin{lstlisting}[language=JavaScript,caption={Úryvek \M{/src/pages/api/auth/[...nextauth].ts}; zjištění aktuálního ročníku uživatele.}]
 function parseUserLevel(email: string) {
@@ -150,6 +150,8 @@ function parseUserLevel(email: string) {
     return level;
 }
 \end{lstlisting}
+
+Tento přístup má výhodu v tom, že není potřeba nijak předem definovat účty žáků; všechny potřebné údaje lze zjistit automaticky bez zásahu učitele.
 
 Aby bylo přihlašování přes Google účet možné, je potřeba svoji aplikaci registrovat v Google Developer Console. Zde lze editovat, k jakým údajům uživatele má aplikace přístup (v tomto případě pouze ke jménu a e-mailu), název aplikace zobrazený uživateli aj. Také je zde potřeba správně nastavit callback adresu -- kam Google uživatele přesměruje po přihlášení -- a potvrzené zdroje JavaScriptu.
 
@@ -561,7 +563,7 @@ function parseForm(formId) {
 
 Tracking\footnote{Tracking, česky \enquote*{sledování}, je pomůcka, která umožňuje sledování aktivity uživatelů napříč aplikací.} na webu je často velmi invazivní, proto jsem se v souladu s požadavky projektu rozhodl použít platformu Plausible, která se snaží o etický přístup a zaručuje například soulad s evropskou směrnicí GDPR.\cite{plausible}
 
-Instance, která je aktuálně použitá na produkční verzi programu \emph{Rozřazovák} je self-hosted\footnote{Plausible umožňuje bezplatné spuštění programu na vlastním serveru.}, což zaručuje další vrstvu zajištění soukromí uživatelů.
+Instance, která je aktuálně použitá na produkční verzi programu \emph{Rozřazovák}, je self-hosted\footnote{Plausible umožňuje bezplatné spuštění programu na vlastním serveru.}, což zaručuje další vrstvu zajištění soukromí uživatelů.
 
 Díky Plausible jsou učitelům i vývojáři zpřístupněna data, mimo jiné o návštěvnosti  a délce zobrazení různých stránek.
 

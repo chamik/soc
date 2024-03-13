@@ -4,11 +4,11 @@
 
 Při tvorbě aplikace bylo neustále nutné myslet na dva hlavní faktory, kolem kterých se celý design musí odvíjet; program je určený pro dvě skupiny: učitele a~žáky zároveň. 
 
-Úkolem žáka je v časovém limitu odpovědět na jazykové otázky. Žák by měl mít co nejméně možností jak podvádět, aby byl správně umístěn do jazykové skupiny úměrné jeho znalostem; dostane náhodnou sadu otázek různých obtížností, které pro jeho ročník navolí učitel.
+Úkolem žáka je v časovém limitu odpovědět na jazykové otázky. Žák by měl mít co nejméně možností pro podvádění, aby byl správně umístěn do jazykové skupiny úměrné jeho znalostem; dostane náhodnou sadu otázek různých obtížností, které pro jeho ročník navolí učitel.
 
 Učitel pracuje se svým vlastním rozhraním, kde zadává otázky, vytváří testy, \mbox{kontroluje} průběh testování a získává automaticky zpracované výsledky.
 
-V obou případech je důležité, aby byla webová aplikace intuitivní na používání, měla příjemný design a hlavně spolehlivě fungovala.
+V obou případech je důležité, aby byla webová aplikace intuitivní na používání, měla příjemný design a hlavně aby spolehlivě fungovala.
 
 \section{Přihlašování}
 \label{sec:login-design}
@@ -139,7 +139,7 @@ Při prvotním spuštění programu se automaticky vygeneruje osm testů (pro os
     \caption{Detail komponentu testu.}
 \end{figure}
 
-V levé části se nachází číslo ročníku a status testu (\M{VYPNUTÝ}, \M{AKTIVNÍ} a~\M{VYPLNĚNÝ}). Ve sloupci Gramatika lze vidět počet použitých otázek pro každou jazykovou obtížnost. Ve sloupci Čas testu lze vidět časový limit v minutách. Úplně vpravo pak tlačítka pro nastavení a spuštění testu.
+V levé části se nachází číslo ročníku a status testu (\M{VYPNUTÝ}, \M{AKTIVNÍ} a~\M{VYPLNĚNÝ}). Ve sloupci Gramatika lze vidět počet použitých otázek pro každou jazykovou obtížnost. Ve sloupci Čas testu lze vidět časový limit v minutách. Úplně vpravo jsou tlačítka pro nastavení a spuštění testu.
 
 \begin{figure}[H]
     \centering
@@ -167,7 +167,7 @@ Pokud jsou zadaná data testu nesprávná (například při zadání většího 
     \caption{Informační okno při nepodařeném spuštění testu.}
 \end{figure}
 
-Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test znovu spustit tlačítkem \M{Spustit} (toto je například potřeba, pokud během rozřazovacích testů někdo chyběl, což je poměrně pravděpodobné), \M{Smazat} výsledky (tato možnost test dostane zpět do stavu \M{VYPNUTÝ} a je nevratná) a nebo si stáhnout výsledky ve formátu \M{.xlsx} (Excel tabulka).
+Po zastavení testu se status změní na \M{VYPLNĚNÝ}. Z tohoto stavu lze test znovu spustit tlačítkem \M{Spustit} (toto je například potřeba, pokud během rozřazovacích testů někdo chyběl, což je poměrně pravděpodobné), \M{Smazat} (tato možnost test dostane zpět do stavu \M{VYPNUTÝ} a je nevratně smaže výsledky) a nebo si stáhnout výsledky ve formátu \M{.xlsx} (Excel tabulka).
 
 \begin{figure}[H]
     \centering
@@ -202,7 +202,9 @@ Sekce Gramatika slouží k upravování gramatických otázek. Skládá se ze se
     \caption{Sekce Gramatika.}
 \end{figure}
 
-Po kliknutí na otázku se otevře modální okno s nastavením dané otázky. Při kliknutí na tlačítko pro vytvoření otázky se otevře stejné okno, akorát nevyplněné. Zde je potřeba vyplnit text otázky, správnou odpověď, tři špatné odpovědi a vybrat jednu z jazykových obtížností. 
+Po kliknutí na otázku se otevře modální okno s nastavením dané otázky. Při kliknutí na tlačítko pro vytvoření otázky se otevře stejné okno, ale nevyplněné. Zde je potřeba vyplnit text otázky, správnou odpověď, tři špatné odpovědi a vybrat jednu z jazykových obtížností. 
+
+Kupříkladu otázka s ID 5 je \enquote{She fell down and broke her ankle, \_ was a pity.} (znak podtržítka se v žákovském rozhraní zobrazí jako fialový obdélník, viz Obrázek \ref{purplerect}). Správná odpověď je \enquote{which}, špatné odpovědi jsou \enquote{what}, \enquote{that} a \enquote*{and}. Jazyková roveň je nastavena na \enquote{A1}.
 
 \begin{figure}[H]
     \centering

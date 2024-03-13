@@ -16,7 +16,7 @@ rozrazovak.gjp-me.cz {
 
 Použitý port 9000 je možné nakonfigurovat, viz \ref{sec:config}.
 
-Aby byla aplikace dostupná z internetu na uživatelsky přívětivé doméně, je potřeba mít k nějaké takové administrátorský přístup. Za pomoci vedoucí práce Markéty Wolfové byla projektu zpřístupněna poddoména \M{rozrazovak.gjp-me.cz}. Tato poddoména nyní pomocí DNS záznamu CNAME odkazuje na vlastní doménu \M{chamik.eu}, která už následně odkazuje na specifickou IP adresu serveru. 
+Aby byla aplikace dostupná z internetu na uživatelsky přívětivé doméně, je potřeba mít k nějaké takové administrátorský přístup. Za pomoci vedoucí práce prof. Markéty Wolfové byla projektu zpřístupněna poddoména \M{rozrazovak.gjp-me.cz}. Tato poddoména nyní pomocí DNS záznamu CNAME odkazuje na vlastní doménu \M{chamik.eu}, která už následně odkazuje na specifickou IP adresu serveru. 
 
 Odkazování pomocí CNAME je výhodné v tom, že v případě změny IP adresy serveru stačí pouze změnit A a AAAA záznam na doméně \M{chamik.eu}, žádná změna ze strany školy tedy potřeba není.
 
@@ -33,7 +33,7 @@ rozrazovak.gjp-me.cz.	3600    IN	CNAME	chamik.eu.
 chamik.eu.		        300	    IN	A	    5.75.170.217
 \end{lstlisting}
 
-Testování programu probíhalo průběžně během vývoje. Nejdůležitější bylo prvotní testování a komunikace s učiteli angličtiny. Pokud by program nevyhovoval jejich požadavkům, postrádal by význam a užitečnost.
+Testování programu probíhalo průběžně během vývoje programu. Nejdůležitější bylo prvotní testování a komunikace s učiteli angličtiny. Pokud by program nevyhovoval jejich požadavkům, postrádal by význam a užitečnost.
 
 Po zprovoznění základních funkcionalit proběhlo několik větších testů s menší třídou žáků a přítomným učitelem. Tyto testy sloužily především k doladění detailů a chyb. Proběhl i test s finální verzí aplikace.
 
